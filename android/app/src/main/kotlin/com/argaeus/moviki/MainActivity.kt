@@ -1,4 +1,4 @@
-package com.example.moviki
+package com.argaeus.moviki
 
 import io.flutter.embedding.android.FlutterActivity
 
