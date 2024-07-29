@@ -3,11 +3,11 @@ import 'package:moviki/features/movie/domain/entities/genre.dart';
 import 'package:moviki/features/movie/domain/entities/spoken_language.dart';
 
 class MovieEntity extends Equatable {
+  final int? id;
   final bool? adult;
   final String? backdropPath;
   final int? budget;
   final List<GenreEntity>? genres;
-  final int? id;
   final String? originalLanguage;
   final String? originalTitle;
   final String? overview;
@@ -24,7 +24,7 @@ class MovieEntity extends Equatable {
   final double? voteAverage;
   final int? voteCount;
 
-  MovieEntity(
+  const MovieEntity(
       {this.id,
       this.adult,
       this.backdropPath,
