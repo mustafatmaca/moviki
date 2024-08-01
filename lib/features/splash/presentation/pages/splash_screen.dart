@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -39,30 +40,35 @@ class SplashScreen extends StatelessWidget {
               left: 0,
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.only(left: 12, right: 12, bottom: 24),
+                padding: const EdgeInsets.only(left: 12, right: 12, bottom: 24),
                 height: MediaQuery.of(context).size.height * 0.38,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Moviki",
                       style: TextStyle(color: Colors.white, fontSize: 36),
                     ),
-                    Text(
+                    const Text(
                       "Get knowledge about films and series!",
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Get Started"),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()));
+                      },
                       style: ElevatedButton.styleFrom(
                           elevation: 12,
-                          backgroundColor: Color(0xFFFF5046),
+                          backgroundColor: const Color(0xFFFF5046),
                           foregroundColor: Colors.white,
-                          shadowColor: Color(0xFFFF5046),
+                          shadowColor: const Color(0xFFFF5046),
                           minimumSize: Size(MediaQuery.of(context).size.width,
                               MediaQuery.of(context).size.height * 0.07)),
+                      child: const Text("Get Started"),
                     ),
                   ],
                 ),
