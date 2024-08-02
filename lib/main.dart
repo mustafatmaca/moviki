@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
@@ -12,6 +14,9 @@ Future<void> main() async {
     providers: [
       BlocProvider<RemoteMovieBloc>(
         create: (context) => getIt()..add(const GetPopularMovies()),
+      ),
+      BlocProvider<BottomNavigationBloc>(
+        create: (context) => getIt()..add(const ChangePage(0)),
       ),
     ],
     child: const MaterialApp(
