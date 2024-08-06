@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
+import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -70,6 +71,7 @@ class HomeScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
+                child: CustomSlider(),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
