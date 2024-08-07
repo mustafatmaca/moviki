@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_state.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -67,11 +70,44 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-                child: CustomSlider(),
+              BlocBuilder<RemoteMovieBloc, RemoteMovieState>(
+                builder: (context, state) {
+                  if (state is RemoteMovieInitial) {
+                    context.read<RemoteMovieBloc>().add(GetPopularMovies());
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                    );
+                  } else if (state is RemoteMovieLoading) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFFF5046),
+                        ),
+                      ),
+                    );
+                  } else if (state is RemoteMovieLoaded) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: CustomSlider(
+                        movieList: state.movies!,
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(child: Text("Something went wrong!")),
+                    );
+                  }
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

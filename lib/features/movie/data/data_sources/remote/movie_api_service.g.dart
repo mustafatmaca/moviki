@@ -37,7 +37,7 @@ class _MovieApiService implements MovieApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<List<MovieModel>>>(Options(
       method: 'GET',
       headers: _headers,
@@ -54,7 +54,7 @@ class _MovieApiService implements MovieApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var _value = _result.data!
+    var _value = (_result.data!['results'] as List<dynamic>)
         .map((dynamic i) => MovieModel.fromMap(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(_value, _result);

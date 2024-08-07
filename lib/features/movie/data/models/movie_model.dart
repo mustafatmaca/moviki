@@ -53,32 +53,34 @@ class MovieModel extends MovieEntity {
       id: map['id'] != null ? map['id'] as int : null,
       adult: map['adult'] != null ? map['adult'] as bool : null,
       backdropPath:
-          map['backdropPath'] != null ? map['backdropPath'] as String : null,
+          map['backdrop_path'] != null ? map['backdrop_path'] as String : null,
       budget: map['budget'] != null ? map['budget'] as int : null,
       genres: map['genres'] != null
           ? List<GenreModel>.from(
-              (map['genres'] as List<int>).map<GenreModel?>(
+              (map['genres'] as List<Map<String, dynamic>>).map<GenreModel?>(
                 (x) => GenreModel.fromMap(x as Map<String, dynamic>),
               ),
             )
           : null,
-      originalLanguage: map['originalLanguage'] != null
-          ? map['originalLanguage'] as String
+      originalLanguage: map['original_language'] != null
+          ? map['original_language'] as String
           : null,
-      originalTitle:
-          map['originalTitle'] != null ? map['originalTitle'] as String : null,
+      originalTitle: map['original_title'] != null
+          ? map['original_title'] as String
+          : null,
       overview: map['overview'] != null ? map['overview'] as String : null,
       popularity:
           map['popularity'] != null ? map['popularity'] as double : null,
       posterPath:
-          map['posterPath'] != null ? map['posterPath'] as String : null,
+          map['poster_path'] != null ? map['poster_path'] as String : null,
       releaseDate:
-          map['releaseDate'] != null ? map['releaseDate'] as String : null,
+          map['release_date'] != null ? map['release_date'] as String : null,
       revenue: map['revenue'] != null ? map['revenue'] as int : null,
       runtime: map['runtime'] != null ? map['runtime'] as int : null,
-      spokenLanguages: map['spokenLanguages'] != null
+      spokenLanguages: map['spoken_languages'] != null
           ? List<SpokenLanguageModel>.from(
-              (map['spokenLanguages'] as List<int>).map<SpokenLanguageModel?>(
+              (map['spoken_languages'] as List<Map<String, dynamic>>)
+                  .map<SpokenLanguageModel?>(
                 (x) => SpokenLanguageModel.fromMap(x as Map<String, dynamic>),
               ),
             )
@@ -88,8 +90,8 @@ class MovieModel extends MovieEntity {
       title: map['title'] != null ? map['title'] as String : null,
       video: map['video'] != null ? map['video'] as bool : null,
       voteAverage:
-          map['voteAverage'] != null ? map['voteAverage'] as double : null,
-      voteCount: map['voteCount'] != null ? map['voteCount'] as int : null,
+          map['vote_average'] != null ? map['vote_average'] as double : null,
+      voteCount: map['vote_count'] != null ? map['vote_count'] as int : null,
     );
   }
 
