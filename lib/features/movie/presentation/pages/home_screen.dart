@@ -7,6 +7,7 @@ import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movi
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_state.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
+import 'package:moviki/features/movie/presentation/widgets/custom_top_slider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,10 +40,44 @@ class HomeScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.65,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+              BlocBuilder<RemoteMovieBloc, RemoteMovieState>(
+                builder: (context, state) {
+                  if (state is RemoteMovieInitial) {
+                    context.read<RemoteMovieBloc>().add(GetPopularMovies());
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                    );
+                  } else if (state is RemoteMovieLoading) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFFF5046),
+                        ),
+                      ),
+                    );
+                  } else if (state is RemoteMovieLoaded) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.60,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: CustomTopSlider(
+                        movieList: state.movies!,
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(child: Text("Something went wrong!")),
+                    );
+                  }
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
