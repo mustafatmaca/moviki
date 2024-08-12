@@ -6,6 +6,9 @@ import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_top_slider.dart';
 
@@ -66,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       color: Colors.transparent,
                       child: CustomTopSlider(
-                        movieList: state.movies!,
+                        movieList: state.movies!.sublist(0, 3),
                       ),
                     );
                   } else {
@@ -131,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       color: Colors.transparent,
                       child: CustomSlider(
-                        movieList: state.movies!,
+                        movieList: state.movies!.sublist(3),
                       ),
                     );
                   } else {
@@ -148,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Now In Theatre",
+                    "Top Rated",
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   TextButton(
@@ -170,10 +173,44 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+              BlocBuilder<RemoteTopMovieBloc, RemoteTopMovieState>(
+                builder: (context, state) {
+                  if (state is RemoteTopMovieInitial) {
+                    context.read<RemoteTopMovieBloc>().add(GetTopRatedMovies());
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                    );
+                  } else if (state is RemoteTopMovieLoading) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFFF5046),
+                        ),
+                      ),
+                    );
+                  } else if (state is RemoteTopMovieLoaded) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: CustomSlider(
+                        movieList: state.movies!,
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: const Center(child: Text("Something went wrong!")),
+                    );
+                  }
+                },
               ),
             ],
           ),

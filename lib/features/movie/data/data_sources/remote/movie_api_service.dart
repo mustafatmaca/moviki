@@ -16,4 +16,12 @@ abstract class MovieApiService {
     @Query("language") String? language,
     @Query("region") String? region,
   });
+
+  @GET('/movie/top_rated')
+  Future<HttpResponse<List<MovieModel>>> getTopRatedMovies({
+    @Query("api_key") String? apiKey,
+    @Query("page") String? page,
+    @Query("language") String? language,
+    @Query("region") String? region,
+  });
 }
