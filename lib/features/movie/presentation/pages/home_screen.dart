@@ -9,6 +9,7 @@ import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movi
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
+import 'package:moviki/features/movie/presentation/pages/movie_list_screen.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_top_slider.dart';
 
@@ -90,7 +91,14 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const MovieListScreen(title: "Top Movies"),
+                          ));
+                    },
                     child: const Row(
                       children: [
                         Text(
@@ -155,7 +163,14 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const MovieListScreen(title: "Top Rated"),
+                          ));
+                    },
                     child: const Row(
                       children: [
                         Text(
