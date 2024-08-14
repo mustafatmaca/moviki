@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 
@@ -25,7 +26,7 @@ buildFilmCard(MovieEntity movie) {
         color: Colors.black,
         image: DecorationImage(
             fit: BoxFit.contain,
-            image: NetworkImage(
+            image: CachedNetworkImageProvider(
                 "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
   );
 }
