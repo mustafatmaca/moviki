@@ -23,12 +23,7 @@ class MovieListScreen extends StatelessWidget {
           foregroundColor: Colors.white,
           automaticallyImplyLeading: false,
         ),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            buildList(title),
-          ],
-        )));
+        body: buildList(title));
   }
 
   buildList(String title) {
