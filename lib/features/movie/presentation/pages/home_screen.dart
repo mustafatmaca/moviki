@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_bloc.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_state.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
@@ -44,16 +44,18 @@ class HomeScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              BlocBuilder<RemoteMovieBloc, RemoteMovieState>(
+              BlocBuilder<RemotePopularMovieBloc, RemotePopularMovieState>(
                 builder: (context, state) {
-                  if (state is RemoteMovieInitial) {
-                    context.read<RemoteMovieBloc>().add(GetPopularMovies());
+                  if (state is RemotePopularMovieInitial) {
+                    context
+                        .read<RemotePopularMovieBloc>()
+                        .add(GetPopularMovies());
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.65,
                       width: MediaQuery.of(context).size.width,
                       color: Colors.transparent,
                     );
-                  } else if (state is RemoteMovieLoading) {
+                  } else if (state is RemotePopularMovieLoading) {
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.65,
                       width: MediaQuery.of(context).size.width,
@@ -64,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else if (state is RemoteMovieLoaded) {
+                  } else if (state is RemotePopularMovieLoaded) {
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.60,
                       width: MediaQuery.of(context).size.width,
@@ -116,16 +118,18 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               ),
-              BlocBuilder<RemoteMovieBloc, RemoteMovieState>(
+              BlocBuilder<RemotePopularMovieBloc, RemotePopularMovieState>(
                 builder: (context, state) {
-                  if (state is RemoteMovieInitial) {
-                    context.read<RemoteMovieBloc>().add(GetPopularMovies());
+                  if (state is RemotePopularMovieInitial) {
+                    context
+                        .read<RemotePopularMovieBloc>()
+                        .add(GetPopularMovies());
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.22,
                       width: MediaQuery.of(context).size.width,
                       color: Colors.transparent,
                     );
-                  } else if (state is RemoteMovieLoading) {
+                  } else if (state is RemotePopularMovieLoading) {
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.22,
                       width: MediaQuery.of(context).size.width,
@@ -136,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else if (state is RemoteMovieLoaded) {
+                  } else if (state is RemotePopularMovieLoaded) {
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.22,
                       width: MediaQuery.of(context).size.width,

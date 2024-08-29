@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_bloc.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_event.dart';
-import 'package:moviki/features/movie/presentation/bloc/movie/remote/remote_movie_state.dart';
-import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
-import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
-import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_state.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_list_card.dart';
 
 class MovieListScreen extends StatelessWidget {
@@ -28,16 +28,16 @@ class MovieListScreen extends StatelessWidget {
 
   buildList(String title) {
     if (title == "Top Movies") {
-      return BlocBuilder<RemoteMovieBloc, RemoteMovieState>(
+      return BlocBuilder<AllPopularBloc, AllPopularState>(
         builder: (context, state) {
-          if (state is RemoteMovieInitial) {
-            context.read<RemoteMovieBloc>().add(const GetPopularMovies());
+          if (state is AllPopularInitial) {
+            context.read<AllPopularBloc>().add(const GetAllPopularMovies());
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               color: Colors.transparent,
             );
-          } else if (state is RemoteMovieLoading) {
+          } else if (state is AllPopularLoading) {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -48,7 +48,7 @@ class MovieListScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is RemoteMovieLoaded) {
+          } else if (state is AllPopularLoaded) {
             return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -70,16 +70,16 @@ class MovieListScreen extends StatelessWidget {
         },
       );
     } else if (title == "Top Rated") {
-      return BlocBuilder<RemoteTopMovieBloc, RemoteTopMovieState>(
+      return BlocBuilder<AllTopBloc, AllTopState>(
         builder: (context, state) {
-          if (state is RemoteTopMovieInitial) {
-            context.read<RemoteTopMovieBloc>().add(const GetTopRatedMovies());
+          if (state is AllTopInitial) {
+            context.read<AllTopBloc>().add(const GetAllTopRatedMovies());
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               color: Colors.transparent,
             );
-          } else if (state is RemoteTopMovieLoading) {
+          } else if (state is AllTopLoading) {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -90,7 +90,7 @@ class MovieListScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is RemoteTopMovieLoaded) {
+          } else if (state is AllTopLoaded) {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
