@@ -17,7 +17,7 @@ class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
       GetAllPopularMovies event, Emitter<AllPopularState> emit) async {
     emit(const AllPopularLoading());
 
-    final dataState = await _getPopularMovieUseCase();
+    final dataState = await _getPopularMovieUseCase(params: event.page);
 
     if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
       emit(AllPopularLoaded(dataState.data!));

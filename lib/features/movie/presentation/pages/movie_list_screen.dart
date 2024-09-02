@@ -8,30 +8,54 @@ import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_event.da
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_state.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_list_card.dart';
 
-class MovieListScreen extends StatelessWidget {
+class MovieListScreen extends StatefulWidget {
   final String title;
   const MovieListScreen({super.key, required this.title});
+
+  @override
+  State<MovieListScreen> createState() => _MovieListScreenState();
+}
+
+class _MovieListScreenState extends State<MovieListScreen> {
+  late ScrollController scrollController;
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController()..addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    print(scrollController.position.extentAfter);
+    if (scrollController.position.extentAfter == 0) {
+      setState(() {
+        page++;
+        context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text(title),
+          title: Text(widget.title),
           centerTitle: false,
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           automaticallyImplyLeading: false,
         ),
-        body: buildList(title));
+        body: buildList(widget.title, page));
   }
 
-  buildList(String title) {
+  buildList(String title, int page) {
     if (title == "Top Movies") {
       return BlocBuilder<AllPopularBloc, AllPopularState>(
         builder: (context, state) {
           if (state is AllPopularInitial) {
-            context.read<AllPopularBloc>().add(const GetAllPopularMovies());
+            context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -54,6 +78,7 @@ class MovieListScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 color: Colors.transparent,
                 child: ListView.builder(
+                  controller: scrollController,
                   itemCount: state.movies!.length,
                   itemBuilder: (context, index) {
                     return CustomListCard(movie: state.movies![index]);

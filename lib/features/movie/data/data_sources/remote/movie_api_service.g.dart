@@ -23,14 +23,14 @@ class _MovieApiService implements MovieApiService {
   @override
   Future<HttpResponse<List<MovieModel>>> getPopularMovies({
     String? apiKey,
-    String? page,
+    int? page,
     String? language,
     String? region,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'api_key': apiKey,
-      r'page': page,
+      r'page': page ?? 1,
       r'language': language,
       r'region': region,
     };
@@ -64,7 +64,7 @@ class _MovieApiService implements MovieApiService {
   @override
   Future<HttpResponse<List<MovieModel>>> getTopRatedMovies({
     String? apiKey,
-    String? page,
+    int? page,
     String? language,
     String? region,
   }) async {

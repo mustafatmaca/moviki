@@ -8,5 +8,6 @@ abstract class AllPopularEvent extends Equatable {
 }
 
 class GetAllPopularMovies extends AllPopularEvent {
-  const GetAllPopularMovies();
+  final int? page;
+  const GetAllPopularMovies({this.page});
 }

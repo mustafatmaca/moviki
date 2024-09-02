@@ -14,10 +14,11 @@ class MovieRepositoryImpl implements MovieRepository {
   MovieRepositoryImpl(this._movieApiService);
 
   @override
-  Future<DataState<List<MovieModel>>> getPopularMovies() async {
+  Future<DataState<List<MovieModel>>> getPopularMovies(int? page) async {
     try {
       final httpResponse = await _movieApiService.getPopularMovies(
         apiKey: apiKey,
+        page: page,
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {

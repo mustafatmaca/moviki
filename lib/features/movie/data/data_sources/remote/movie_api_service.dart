@@ -12,7 +12,7 @@ abstract class MovieApiService {
   @GET('/movie/popular')
   Future<HttpResponse<List<MovieModel>>> getPopularMovies({
     @Query("api_key") String? apiKey,
-    @Query("page") String? page,
+    @Query("page") int? page,
     @Query("language") String? language,
     @Query("region") String? region,
   });
@@ -20,7 +20,7 @@ abstract class MovieApiService {
   @GET('/movie/top_rated')
   Future<HttpResponse<List<MovieModel>>> getTopRatedMovies({
     @Query("api_key") String? apiKey,
-    @Query("page") String? page,
+    @Query("page") int? page,
     @Query("language") String? language,
     @Query("region") String? region,
   });
