@@ -19,6 +19,7 @@ class MovieListScreen extends StatefulWidget {
 class _MovieListScreenState extends State<MovieListScreen> {
   late ScrollController scrollController;
   int page = 1;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -26,12 +27,18 @@ class _MovieListScreenState extends State<MovieListScreen> {
     scrollController = ScrollController()..addListener(_scrollListener);
   }
 
-  void _scrollListener() {
+  Future<void> _scrollListener() async {
     print(scrollController.position.extentAfter);
     if (scrollController.position.extentAfter == 0) {
       setState(() {
-        page++;
-        context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
+        isLoading = true;
+      });
+      page++;
+      await new Future.delayed(const Duration(seconds: 2));
+      context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
+      await new Future.delayed(const Duration(seconds: 2));
+      setState(() {
+        isLoading = false;
       });
     }
   }
@@ -79,9 +86,20 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 color: Colors.transparent,
                 child: ListView.builder(
                   controller: scrollController,
-                  itemCount: state.movies!.length,
+                  itemCount: state.movies!.length + (isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
-                    return CustomListCard(movie: state.movies![index]);
+                    if (index == state.movies!.length) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFFF5046),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return CustomListCard(movie: state.movies![index]);
+                    }
                   },
                 ));
           } else {

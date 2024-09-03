@@ -15,16 +15,25 @@ class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
 
   Future<void> onGetAllPopularMovies(
       GetAllPopularMovies event, Emitter<AllPopularState> emit) async {
-    emit(const AllPopularLoading());
+    if (state is AllPopularLoaded) {
+      final newList = (state as AllPopularLoaded).movies;
+      final dataState = await _getPopularMovieUseCase(params: event.page);
 
-    final dataState = await _getPopularMovieUseCase(params: event.page);
+      newList!.addAll(dataState.data!);
 
-    if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
-      emit(AllPopularLoaded(dataState.data!));
-    }
+      emit(AllPopularLoaded(newList));
+    } else {
+      emit(const AllPopularLoading());
 
-    if (dataState is DataFailed) {
-      emit(AllPopularError(dataState.error!));
+      final dataState = await _getPopularMovieUseCase(params: event.page);
+
+      if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
+        emit(AllPopularLoaded(dataState.data!));
+      }
+
+      if (dataState is DataFailed) {
+        emit(AllPopularError(dataState.error!));
+      }
     }
   }
 }
