@@ -29,7 +29,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   Future<void> _scrollListener() async {
     print(scrollController.position.extentAfter);
-    if (scrollController.position.extentAfter == 0) {
+    if (scrollController.position.extentAfter == 0 && !isLoading) {
       setState(() {
         isLoading = true;
       });
