@@ -34,9 +34,9 @@ class _MovieListScreenState extends State<MovieListScreen> {
         isLoading = true;
       });
       page++;
-      await new Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 500));
       context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
-      await new Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         isLoading = false;
       });
@@ -45,16 +45,24 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: Text(widget.title),
-          centerTitle: false,
+    return PopScope(
+      onPopInvoked: (didPop) {
+        setState(() {
+          page = 1;
+        });
+        context.read<AllPopularBloc>().add(const ResetState());
+      },
+      child: Scaffold(
           backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-        ),
-        body: buildList(widget.title, page));
+          appBar: AppBar(
+            title: Text(widget.title),
+            centerTitle: false,
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+          ),
+          body: buildList(widget.title, page)),
+    );
   }
 
   buildList(String title, int page) {
@@ -90,7 +98,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   itemBuilder: (context, index) {
                     if (index == state.movies!.length) {
                       return const Padding(
-                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        padding: EdgeInsets.only(top: 10.0, bottom: 14.0),
                         child: Center(
                           child: CircularProgressIndicator(
                             color: Color(0xFFFF5046),

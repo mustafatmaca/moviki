@@ -11,3 +11,7 @@ class GetAllPopularMovies extends AllPopularEvent {
   final int? page;
   const GetAllPopularMovies({this.page});
 }
+
+class ResetState extends AllPopularEvent {
+  const ResetState();
+}

@@ -9,8 +9,10 @@ import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_
 class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
   final GetPopularMovieUseCase _getPopularMovieUseCase;
 
-  AllPopularBloc(this._getPopularMovieUseCase) : super(AllPopularInitial()) {
+  AllPopularBloc(this._getPopularMovieUseCase)
+      : super(const AllPopularInitial()) {
     on<GetAllPopularMovies>(onGetAllPopularMovies);
+    on<ResetState>(onResetState);
   }
 
   Future<void> onGetAllPopularMovies(
@@ -35,5 +37,9 @@ class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
         emit(AllPopularError(dataState.error!));
       }
     }
+  }
+
+  FutureOr<void> onResetState(ResetState event, Emitter<AllPopularState> emit) {
+    emit(const AllPopularInitial());
   }
 }
