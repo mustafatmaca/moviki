@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:moviki/core/constants/constants.dart';
 import 'package:moviki/features/movie/data/models/movie_model.dart';
+import 'package:moviki/features/movie/data/models/movie_provider_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'movie_api_service.g.dart';
@@ -23,5 +24,11 @@ abstract class MovieApiService {
     @Query("page") int? page,
     @Query("language") String? language,
     @Query("region") String? region,
+  });
+
+  @GET('/movie/{movie_id}/watch/providers')
+  Future<HttpResponse<List<MovieProviderModel>>> getMovieProviders({
+    @Path("movie_id") int? movieId,
+    @Query("api_key") String? apiKey,
   });
 }
