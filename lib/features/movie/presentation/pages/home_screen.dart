@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
@@ -94,6 +96,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
+                      context.read<AllPopularBloc>().add(const ResetState());
                       Navigator.push(
                           context,
                           MaterialPageRoute(

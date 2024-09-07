@@ -50,7 +50,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
         setState(() {
           page = 1;
         });
-        context.read<AllPopularBloc>().add(const ResetState());
       },
       child: Scaffold(
           backgroundColor: Colors.black,
