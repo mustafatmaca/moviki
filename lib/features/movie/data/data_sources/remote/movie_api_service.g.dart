@@ -103,7 +103,7 @@ class _MovieApiService implements MovieApiService {
   }
 
   @override
-  Future<HttpResponse<List<MovieProviderModel>>> getMovieProviders({
+  Future<HttpResponse<List<MovieProviderModel>?>> getMovieProviders({
     int? movieId,
     String? apiKey,
   }) async {
@@ -129,12 +129,32 @@ class _MovieApiService implements MovieApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var _value = (_result.data!['results']['US']['flatrate'] as List<dynamic>)
-        .map((dynamic i) =>
-            MovieProviderModel.fromMap(i as Map<String, dynamic>))
-        .toList();
-    final httpResponse = HttpResponse(_value, _result);
-    return httpResponse;
+    if ((_result.data!['results']) != null) {
+      if ((_result.data!['results'] as Map<String, dynamic>)
+          .containsKey('US')) {
+        var _countryList = _result.data!['results']['US'];
+        if ((_countryList as Map<String, dynamic>).containsKey('flatrate')) {
+          var _provList = _countryList['flatrate'];
+          var _value = (_provList as List<dynamic>)
+              .map((e) => MovieProviderModel.fromMap(e as Map<String, dynamic>))
+              .toList();
+          final httpResponse = HttpResponse(_value, _result);
+          return httpResponse;
+        } else {
+          var _value = List<MovieProviderModel>.empty();
+          final httpResponse = HttpResponse(_value, _result);
+          return httpResponse;
+        }
+      } else {
+        var _value = List<MovieProviderModel>.empty();
+        final httpResponse = HttpResponse(_value, _result);
+        return httpResponse;
+      }
+    } else {
+      var _value = List<MovieProviderModel>.empty();
+      final httpResponse = HttpResponse(_value, _result);
+      return httpResponse;
+    }
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

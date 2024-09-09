@@ -27,7 +27,7 @@ abstract class MovieApiService {
   });
 
   @GET('/movie/{movie_id}/watch/providers')
-  Future<HttpResponse<List<MovieProviderModel>>> getMovieProviders({
+  Future<HttpResponse<List<MovieProviderModel>?>> getMovieProviders({
     @Path("movie_id") int? movieId,
     @Query("api_key") String? apiKey,
   });

@@ -29,6 +29,7 @@ class MovieDetailScreen extends StatelessWidget {
             ),
             Container(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -124,6 +125,7 @@ class MovieDetailScreen extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
+                          textAlign: TextAlign.left,
                         ),
                         BlocBuilder<MovieProvidersBloc, MovieProvidersState>(
                           builder: (context, state) {
@@ -150,62 +152,54 @@ class MovieDetailScreen extends StatelessWidget {
                                 ),
                               );
                             } else if (state is MovieProvidersLoaded) {
-                              return (state.movieProviders != null &&
-                                      state.movieProviders!.isEmpty)
-                                  ? Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.1,
-                                      color: Colors.transparent,
-                                      child: const Center(
-                                          child: Text(
-                                        "There are no providers!",
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                                    )
-                                  : SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: state.movieProviders!
-                                            .map(
-                                              (e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.07,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.14,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      color: Colors.transparent,
-                                                      image: DecorationImage(
-                                                          image: CachedNetworkImageProvider(
-                                                              "https://image.tmdb.org/t/p/original/${e.logoPath}"))),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                      ),
-                                    );
-                            } else {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: state.movieProviders!
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.07,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.14,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: Colors.transparent,
+                                                image: DecorationImage(
+                                                    image: CachedNetworkImageProvider(
+                                                        "https://image.tmdb.org/t/p/original/${e.logoPath}"))),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              );
+                            } else if (state is MovieProvidersError) {
                               return Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 color: Colors.transparent,
-                                child: const Center(
+                                child: Center(
                                     child: Text(
-                                  "Something went wrong!",
+                                  state.error!.message!,
                                   style: TextStyle(color: Colors.white),
                                 )),
+                              );
+                            } else {
+                              return Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.transparent,
+                                child: const Center(
+                                    child: Text("Something went wrong!")),
                               );
                             }
                           },

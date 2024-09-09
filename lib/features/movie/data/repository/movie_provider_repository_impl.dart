@@ -13,7 +13,7 @@ class MovieProviderRepositoryImpl implements MovieProviderRepository {
   MovieProviderRepositoryImpl(this._movieApiService);
 
   @override
-  Future<DataState<List<MovieProviderEntity>>> getMovieProviders(
+  Future<DataState<List<MovieProviderEntity>?>> getMovieProviders(
       int? movieId) async {
     try {
       final httpResponse = await _movieApiService.getMovieProviders(
@@ -22,15 +22,26 @@ class MovieProviderRepositoryImpl implements MovieProviderRepository {
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data);
+        if (httpResponse.data!.isEmpty) {
+          return DataFailed(
+            DioException(
+                error: httpResponse.response.statusMessage,
+                response: httpResponse.response,
+                type: DioExceptionType.badResponse,
+                requestOptions: httpResponse.response.requestOptions,
+                message: "There are no providers!"),
+          );
+        } else {
+          return DataSuccess(httpResponse.data);
+        }
       } else {
         return DataFailed(
           DioException(
-            error: httpResponse.response.statusMessage,
-            response: httpResponse.response,
-            type: DioExceptionType.badResponse,
-            requestOptions: httpResponse.response.requestOptions,
-          ),
+              error: httpResponse.response.statusMessage,
+              response: httpResponse.response,
+              type: DioExceptionType.badResponse,
+              requestOptions: httpResponse.response.requestOptions,
+              message: "There is a unexcepted result!"),
         );
       }
     } on DioException catch (e) {
