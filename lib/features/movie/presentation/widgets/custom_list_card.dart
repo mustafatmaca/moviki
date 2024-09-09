@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_event.dart';
 import 'package:moviki/features/movie/presentation/pages/movie_detail_screen.dart';
 
 class CustomListCard extends StatelessWidget {
@@ -15,6 +17,7 @@ class CustomListCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.read<MovieProvidersBloc>().add(const ResetState());
+        context.read<SimilarMoviesBloc>().add(const ResetSimilarMovies());
         Navigator.push(
             context,
             MaterialPageRoute(

@@ -31,4 +31,12 @@ abstract class MovieApiService {
     @Path("movie_id") int? movieId,
     @Query("api_key") String? apiKey,
   });
+
+  @GET('/movie/{movie_id}/similar')
+  Future<HttpResponse<List<MovieModel>>> getSimilarMovie({
+    @Path("movie_id") int? movieId,
+    @Query("api_key") String? apiKey,
+    @Query("page") int? page,
+    @Query("language") String? language,
+  });
 }

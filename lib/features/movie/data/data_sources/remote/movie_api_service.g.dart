@@ -157,6 +157,48 @@ class _MovieApiService implements MovieApiService {
     }
   }
 
+  @override
+  Future<HttpResponse<List<MovieModel>>> getSimilarMovie({
+    int? movieId,
+    String? apiKey,
+    int? page,
+    String? language,
+    String? region,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'api_key': apiKey,
+      r'page': page,
+      r'language': language,
+      r'region': region,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<List<MovieModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/movie/${movieId}/similar',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var _value = (_result.data!['results'] as List<dynamic>)
+        .map((dynamic i) => MovieModel.fromMap(i as Map<String, dynamic>))
+        .toList();
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

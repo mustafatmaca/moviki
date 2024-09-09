@@ -10,6 +10,8 @@ import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_pr
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
@@ -34,6 +36,9 @@ Future<void> main() async {
       ),
       BlocProvider<MovieProvidersBloc>(
         create: (context) => getIt()..add(const GetMovieProviders()),
+      ),
+      BlocProvider<SimilarMoviesBloc>(
+        create: (context) => getIt()..add(const GetSimilarMovies()),
       ),
       BlocProvider<BottomNavigationBloc>(
         create: (context) => getIt()..add(const ChangePage(0)),
