@@ -39,4 +39,10 @@ abstract class MovieApiService {
     @Query("page") int? page,
     @Query("language") String? language,
   });
+
+  @GET('/movie/{movie_id}')
+  Future<HttpResponse<int>> getMovieRuntime({
+    @Path("movie_id") int? movieId,
+    @Query("api_key") String? apiKey,
+  });
 }

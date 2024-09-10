@@ -6,6 +6,7 @@ import 'package:moviki/features/movie/data/repository/movie_repository_impl.dart
 import 'package:moviki/features/movie/domain/repository/movie_provider_repository.dart';
 import 'package:moviki/features/movie/domain/repository/movie_repository.dart';
 import 'package:moviki/features/movie/domain/usecases/get_movie_provider.dart';
+import 'package:moviki/features/movie/domain/usecases/get_movie_runtime.dart';
 import 'package:moviki/features/movie/domain/usecases/get_popular_movie.dart';
 import 'package:moviki/features/movie/domain/usecases/get_similar_movies.dart';
 import 'package:moviki/features/movie/domain/usecases/get_toprated_movie.dart';
@@ -13,6 +14,7 @@ import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
@@ -38,6 +40,8 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton(GetSimilarMoviesUseCase(getIt()));
 
+  getIt.registerSingleton(GetMovieRuntimeUseCase(getIt()));
+
   getIt.registerFactory<RemotePopularMovieBloc>(
       () => RemotePopularMovieBloc(getIt()));
 
@@ -50,6 +54,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<MovieProvidersBloc>(() => MovieProvidersBloc(getIt()));
 
   getIt.registerFactory<SimilarMoviesBloc>(() => SimilarMoviesBloc(getIt()));
+
+  getIt.registerFactory<MovieRuntimeBloc>(() => MovieRuntimeBloc(getIt()));
 
   getIt.registerFactory<BottomNavigationBloc>(() => BottomNavigationBloc());
 }

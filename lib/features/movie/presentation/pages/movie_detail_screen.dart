@@ -5,6 +5,9 @@ import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_state.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_state.dart';
@@ -94,13 +97,32 @@ class MovieDetailScreen extends StatelessWidget {
                       const SizedBox(
                         width: 6,
                       ),
-                      const Text(
-                        "* h * min",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white38),
-                      ),
+                      BlocBuilder<MovieRuntimeBloc, MovieRuntimeState>(
+                        builder: (context, state) {
+                          if (state is MovieRuntimeInitial) {
+                            context
+                                .read<MovieRuntimeBloc>()
+                                .add(GetRuntime(movieId: movie.id));
+                            return Container();
+                          } else if (state is MovieRuntimeLoaded) {
+                            return Text(
+                              "${(state.runtime! / 60).floor()} h ${(state.runtime! % 60)} min",
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white38),
+                            );
+                          } else {
+                            return const Text(
+                              "* h * min",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white38),
+                            );
+                          }
+                        },
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -264,6 +286,9 @@ class MovieDetailScreen extends StatelessWidget {
                                                 .read<SimilarMoviesBloc>()
                                                 .add(
                                                     const ResetSimilarMovies());
+                                            context
+                                                .read<MovieRuntimeBloc>()
+                                                .add(const ResetRuntime());
                                             await Future.delayed(
                                                 Duration(milliseconds: 100));
                                             Navigator.pushReplacement(

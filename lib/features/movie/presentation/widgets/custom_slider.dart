@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_event.dart';
 import 'package:moviki/features/movie/presentation/pages/movie_detail_screen.dart';
@@ -37,6 +39,7 @@ buildFilmCard(MovieEntity movie, BuildContext context) {
       onTap: () {
         context.read<MovieProvidersBloc>().add(const ResetState());
         context.read<SimilarMoviesBloc>().add(const ResetSimilarMovies());
+        context.read<MovieRuntimeBloc>().add(const ResetRuntime());
         Navigator.push(
             context,
             MaterialPageRoute(
