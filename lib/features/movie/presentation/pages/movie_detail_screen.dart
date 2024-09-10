@@ -256,7 +256,7 @@ class MovieDetailScreen extends StatelessWidget {
                                   children: state.movies!
                                       .map(
                                         (e) => InkWell(
-                                          onTap: () {
+                                          onTap: () async {
                                             context
                                                 .read<MovieProvidersBloc>()
                                                 .add(const ResetState());
@@ -264,7 +264,9 @@ class MovieDetailScreen extends StatelessWidget {
                                                 .read<SimilarMoviesBloc>()
                                                 .add(
                                                     const ResetSimilarMovies());
-                                            Navigator.push(
+                                            await Future.delayed(
+                                                Duration(milliseconds: 100));
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
