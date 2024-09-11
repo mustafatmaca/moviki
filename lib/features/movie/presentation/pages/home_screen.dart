@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
-import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
@@ -14,6 +14,7 @@ import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_
 import 'package:moviki/features/movie/presentation/pages/movie_list_screen.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_top_slider.dart';
+import 'package:moviki/injection_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -96,13 +97,15 @@ class HomeScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      context.read<AllPopularBloc>().add(const ResetState());
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const MovieListScreen(title: "Top Movies"),
-                          ));
+                              builder: (context) =>
+                                  BlocProvider<AllPopularBloc>.value(
+                                    value: getIt(),
+                                    child: const MovieListScreen(
+                                        title: "Top Movies"),
+                                  )));
                     },
                     child: const Row(
                       children: [
@@ -174,9 +177,12 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const MovieListScreen(title: "Top Rated"),
-                          ));
+                              builder: (context) =>
+                                  BlocProvider<AllTopBloc>.value(
+                                    value: getIt(),
+                                    child: const MovieListScreen(
+                                        title: "Top Rated"),
+                                  )));
                     },
                     child: const Row(
                       children: [

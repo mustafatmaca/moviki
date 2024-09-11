@@ -22,6 +22,9 @@ final class AllPopularLoading extends AllPopularState {
 
 final class AllPopularLoaded extends AllPopularState {
   const AllPopularLoaded(List<MovieEntity> movies) : super(movies: movies);
+
+  @override
+  List<Object> get props => [movies!];
 }
 
 final class AllPopularError extends AllPopularState {

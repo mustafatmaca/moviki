@@ -12,7 +12,6 @@ class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
   AllPopularBloc(this._getPopularMovieUseCase)
       : super(const AllPopularInitial()) {
     on<GetAllPopularMovies>(onGetAllPopularMovies);
-    on<ResetState>(onResetState);
   }
 
   Future<void> onGetAllPopularMovies(
@@ -37,9 +36,5 @@ class AllPopularBloc extends Bloc<AllPopularEvent, AllPopularState> {
         emit(AllPopularError(dataState.error!));
       }
     }
-  }
-
-  FutureOr<void> onResetState(ResetState event, Emitter<AllPopularState> emit) {
-    emit(const AllPopularInitial());
   }
 }

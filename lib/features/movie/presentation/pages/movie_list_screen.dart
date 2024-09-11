@@ -35,7 +35,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
       });
       page++;
       await Future.delayed(const Duration(milliseconds: 500));
-      context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
+      if (widget.title == "Top Movies") {
+        context.read<AllPopularBloc>().add(GetAllPopularMovies(page: page));
+      }
+      if (widget.title == "Top Rated") {
+        context.read<AllTopBloc>().add(GetAllTopRatedMovies(page: page));
+      }
+
       await Future.delayed(const Duration(milliseconds: 500));
       setState(() {
         isLoading = false;
@@ -123,7 +129,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
       return BlocBuilder<AllTopBloc, AllTopState>(
         builder: (context, state) {
           if (state is AllTopInitial) {
-            context.read<AllTopBloc>().add(const GetAllTopRatedMovies());
+            context.read<AllTopBloc>().add(GetAllTopRatedMovies(page: page));
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -142,16 +148,27 @@ class _MovieListScreenState extends State<MovieListScreen> {
             );
           } else if (state is AllTopLoaded) {
             return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-              child: ListView.builder(
-                itemCount: state.movies!.length,
-                itemBuilder: (context, index) {
-                  return CustomListCard(movie: state.movies![index]);
-                },
-              ),
-            );
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.transparent,
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: state.movies!.length + (isLoading ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == state.movies!.length) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 10.0, bottom: 14.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFFF5046),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return CustomListCard(movie: state.movies![index]);
+                    }
+                  },
+                ));
           } else {
             return Container(
               height: MediaQuery.of(context).size.height,

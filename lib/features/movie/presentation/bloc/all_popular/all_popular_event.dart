@@ -9,9 +9,9 @@ abstract class AllPopularEvent extends Equatable {
 
 class GetAllPopularMovies extends AllPopularEvent {
   final int? page;
-  const GetAllPopularMovies({this.page});
-}
 
-class ResetState extends AllPopularEvent {
-  const ResetState();
+  const GetAllPopularMovies({this.page});
+
+  @override
+  List<Object> get props => [page!];
 }

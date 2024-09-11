@@ -39,10 +39,11 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<DataState<List<MovieEntity>>> getTopRatedMovies() async {
+  Future<DataState<List<MovieEntity>>> getTopRatedMovies(int? page) async {
     try {
       final httpResponse = await _movieApiService.getTopRatedMovies(
         apiKey: apiKey,
+        page: page,
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {

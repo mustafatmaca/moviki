@@ -8,5 +8,10 @@ abstract class AllTopEvent extends Equatable {
 }
 
 class GetAllTopRatedMovies extends AllTopEvent {
-  const GetAllTopRatedMovies();
+  final int? page;
+
+  const GetAllTopRatedMovies({this.page});
+
+  @override
+  List<Object> get props => [page!];
 }

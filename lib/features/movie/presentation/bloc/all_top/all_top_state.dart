@@ -22,6 +22,9 @@ final class AllTopLoading extends AllTopState {
 
 final class AllTopLoaded extends AllTopState {
   const AllTopLoaded(List<MovieEntity> movies) : super(movies: movies);
+
+  @override
+  List<Object> get props => [movies!];
 }
 
 final class AllTopError extends AllTopState {

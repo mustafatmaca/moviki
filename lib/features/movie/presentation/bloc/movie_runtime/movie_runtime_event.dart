@@ -11,8 +11,7 @@ class GetRuntime extends MovieRuntimeEvent {
   final int? movieId;
 
   const GetRuntime({this.movieId});
-}
 
-class ResetRuntime extends MovieRuntimeEvent {
-  const ResetRuntime();
+  @override
+  List<Object> get props => [movieId!];
 }

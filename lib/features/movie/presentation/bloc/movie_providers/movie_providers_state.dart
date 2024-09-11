@@ -23,6 +23,9 @@ final class MovieProvidersLoading extends MovieProvidersState {
 final class MovieProvidersLoaded extends MovieProvidersState {
   const MovieProvidersLoaded(List<MovieProviderEntity> movieProviders)
       : super(movieProviders: movieProviders);
+
+  @override
+  List<Object> get props => [movieProviders!];
 }
 
 final class MovieProvidersError extends MovieProvidersState {

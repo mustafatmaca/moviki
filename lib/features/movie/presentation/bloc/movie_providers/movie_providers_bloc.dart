@@ -12,7 +12,6 @@ class MovieProvidersBloc
   MovieProvidersBloc(this._getMovieProviderUseCase)
       : super(const MovieProvidersInitial()) {
     on<GetMovieProviders>(onGetMovieProviders);
-    on<ResetState>(onResetState);
   }
 
   Future<FutureOr<void>> onGetMovieProviders(
@@ -28,10 +27,5 @@ class MovieProvidersBloc
     if (dataState is DataFailed) {
       emit(MovieProvidersError(dataState.error!));
     }
-  }
-
-  FutureOr<void> onResetState(
-      ResetState event, Emitter<MovieProvidersState> emit) {
-    emit(const MovieProvidersInitial());
   }
 }

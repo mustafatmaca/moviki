@@ -71,7 +71,7 @@ class _MovieApiService implements MovieApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'api_key': apiKey,
-      r'page': page,
+      r'page': page ?? 1,
       r'language': language,
       r'region': region,
     };

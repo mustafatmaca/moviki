@@ -11,7 +11,6 @@ class MovieRuntimeBloc extends Bloc<MovieRuntimeEvent, MovieRuntimeState> {
   MovieRuntimeBloc(this._getMovieRuntimeUseCase)
       : super(const MovieRuntimeInitial()) {
     on<GetRuntime>(onGetRuntime);
-    on<ResetRuntime>(onResetRuntime);
   }
 
   Future<FutureOr<void>> onGetRuntime(
@@ -27,10 +26,5 @@ class MovieRuntimeBloc extends Bloc<MovieRuntimeEvent, MovieRuntimeState> {
     if (dataState is DataFailed) {
       emit(MovieRuntimeError(dataState.error!));
     }
-  }
-
-  FutureOr<void> onResetRuntime(
-      ResetRuntime event, Emitter<MovieRuntimeState> emit) {
-    emit(const MovieRuntimeInitial());
   }
 }

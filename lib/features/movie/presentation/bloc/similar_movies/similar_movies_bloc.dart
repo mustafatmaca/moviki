@@ -11,7 +11,6 @@ class SimilarMoviesBloc extends Bloc<SimilarMoviesEvent, SimilarMoviesState> {
   SimilarMoviesBloc(this._getSimilarMoviesUseCase)
       : super(SimilarMoviesInitial()) {
     on<GetSimilarMovies>(onGetSimilarMovies);
-    on<ResetSimilarMovies>(onResetSimilarMovies);
   }
 
   FutureOr<void> onGetSimilarMovies(
@@ -27,10 +26,5 @@ class SimilarMoviesBloc extends Bloc<SimilarMoviesEvent, SimilarMoviesState> {
     if (dataState is DataFailed) {
       emit(SimilarMoviesError(dataState.error!));
     }
-  }
-
-  FutureOr<void> onResetSimilarMovies(
-      ResetSimilarMovies event, Emitter<SimilarMoviesState> emit) {
-    emit(const SimilarMoviesInitial());
   }
 }

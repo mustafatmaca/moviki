@@ -11,8 +11,7 @@ class GetSimilarMovies extends SimilarMoviesEvent {
   final int? id;
 
   const GetSimilarMovies({this.id});
-}
 
-class ResetSimilarMovies extends SimilarMoviesEvent {
-  const ResetSimilarMovies();
+  @override
+  List<Object> get props => [id!];
 }

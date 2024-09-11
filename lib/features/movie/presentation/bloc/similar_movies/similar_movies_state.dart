@@ -22,6 +22,9 @@ final class SimilarMoviesLoading extends SimilarMoviesState {
 
 final class SimilarMoviesLoaded extends SimilarMoviesState {
   const SimilarMoviesLoaded(List<MovieEntity> movies) : super(movies: movies);
+
+  @override
+  List<Object> get props => [movies!];
 }
 
 final class SimilarMoviesError extends SimilarMoviesState {

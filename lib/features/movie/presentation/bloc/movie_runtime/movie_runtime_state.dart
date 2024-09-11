@@ -20,6 +20,9 @@ final class MovieRuntimeLoading extends MovieRuntimeState {
 
 final class MovieRuntimeLoaded extends MovieRuntimeState {
   const MovieRuntimeLoaded(int runtime) : super(runtime: runtime);
+
+  @override
+  List<Object> get props => [runtime!];
 }
 
 final class MovieRuntimeError extends MovieRuntimeState {

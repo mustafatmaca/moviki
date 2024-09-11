@@ -9,21 +9,30 @@ import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_state.da
 class AllTopBloc extends Bloc<AllTopEvent, AllTopState> {
   final GetTopRatedMovieUseCase _getTopRatedMovieUseCase;
   AllTopBloc(this._getTopRatedMovieUseCase) : super(AllTopInitial()) {
-    on<AllTopEvent>(onGetAllTopRatedMovies);
+    on<GetAllTopRatedMovies>(onGetAllTopRatedMovies);
   }
 
   Future<void> onGetAllTopRatedMovies(
-      AllTopEvent event, Emitter<AllTopState> emit) async {
-    emit(AllTopLoading());
+      GetAllTopRatedMovies event, Emitter<AllTopState> emit) async {
+    if (state is AllTopLoaded) {
+      final newList = (state as AllTopLoaded).movies;
+      final dataState = await _getTopRatedMovieUseCase(params: event.page);
 
-    final dataState = await _getTopRatedMovieUseCase();
+      newList!.addAll(dataState.data!);
 
-    if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
-      emit(AllTopLoaded(dataState.data!));
-    }
+      emit(AllTopLoaded(newList));
+    } else {
+      emit(const AllTopLoading());
 
-    if (dataState is DataFailed) {
-      emit(AllTopError(dataState.error!));
+      final dataState = await _getTopRatedMovieUseCase(params: event.page);
+
+      if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
+        emit(AllTopLoaded(dataState.data!));
+      }
+
+      if (dataState is DataFailed) {
+        emit(AllTopError(dataState.error!));
+      }
     }
   }
 }

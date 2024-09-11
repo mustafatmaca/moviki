@@ -4,13 +4,13 @@ import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/domain/repository/movie_repository.dart';
 
 class GetTopRatedMovieUseCase
-    implements UseCase<DataState<List<MovieEntity>>, void> {
+    implements UseCase<DataState<List<MovieEntity>>, int> {
   final MovieRepository _movieRepository;
 
   GetTopRatedMovieUseCase(this._movieRepository);
 
   @override
-  Future<DataState<List<MovieEntity>>> call({void params}) {
-    return _movieRepository.getTopRatedMovies();
+  Future<DataState<List<MovieEntity>>> call({int? params}) {
+    return _movieRepository.getTopRatedMovies(params);
   }
 }

@@ -11,6 +11,7 @@ import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runt
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_state.dart';
+import 'package:moviki/injection_container.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieEntity movie;
@@ -279,25 +280,26 @@ class MovieDetailScreen extends StatelessWidget {
                                       .map(
                                         (e) => InkWell(
                                           onTap: () async {
-                                            context
-                                                .read<MovieProvidersBloc>()
-                                                .add(const ResetState());
-                                            context
-                                                .read<SimilarMoviesBloc>()
-                                                .add(
-                                                    const ResetSimilarMovies());
-                                            context
-                                                .read<MovieRuntimeBloc>()
-                                                .add(const ResetRuntime());
-                                            await Future.delayed(
-                                                Duration(milliseconds: 100));
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MovieDetailScreen(
-                                                          movie: e),
-                                                ));
+                                                    builder: (context) =>
+                                                        MultiBlocProvider(
+                                                          providers: [
+                                                            BlocProvider<
+                                                                    MovieProvidersBloc>.value(
+                                                                value: getIt()),
+                                                            BlocProvider<
+                                                                    MovieRuntimeBloc>.value(
+                                                                value: getIt()),
+                                                            BlocProvider<
+                                                                    SimilarMoviesBloc>.value(
+                                                                value: getIt()),
+                                                          ],
+                                                          child:
+                                                              MovieDetailScreen(
+                                                                  movie: e),
+                                                        )));
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),

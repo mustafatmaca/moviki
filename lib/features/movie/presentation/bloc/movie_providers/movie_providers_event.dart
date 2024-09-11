@@ -11,8 +11,7 @@ class GetMovieProviders extends MovieProvidersEvent {
   final int? id;
 
   const GetMovieProviders({this.id});
-}
 
-class ResetState extends MovieProvidersEvent {
-  const ResetState();
+  @override
+  List<Object> get props => [id!];
 }
