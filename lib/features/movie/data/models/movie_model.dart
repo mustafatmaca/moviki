@@ -1,16 +1,18 @@
 import 'dart:convert';
 
+import 'package:floor/floor.dart';
 import 'package:moviki/features/movie/data/models/genre_model.dart';
 import 'package:moviki/features/movie/data/models/spoken_language_model.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 
+@Entity(tableName: 'movie', primaryKeys: ['id'])
 class MovieModel extends MovieEntity {
   const MovieModel({
     int? id,
     bool? adult,
     String? backdropPath,
     int? budget,
-    List<GenreModel>? genres,
+    @ignore List<GenreModel>? genres,
     String? originalLanguage,
     String? originalTitle,
     String? overview,
@@ -19,7 +21,7 @@ class MovieModel extends MovieEntity {
     String? releaseDate,
     int? revenue,
     int? runtime,
-    List<SpokenLanguageModel>? spokenLanguages,
+    @ignore List<SpokenLanguageModel>? spokenLanguages,
     String? status,
     String? tagline,
     String? title,

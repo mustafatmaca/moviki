@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
 import 'package:moviki/features/movie/domain/entities/genre.dart';
 import 'package:moviki/features/movie/domain/entities/spoken_language.dart';
 
@@ -7,6 +8,7 @@ class MovieEntity extends Equatable {
   final bool? adult;
   final String? backdropPath;
   final int? budget;
+  @ignore
   final List<GenreEntity>? genres;
   final String? originalLanguage;
   final String? originalTitle;
@@ -16,6 +18,7 @@ class MovieEntity extends Equatable {
   final String? releaseDate;
   final int? revenue;
   final int? runtime;
+  @ignore
   final List<SpokenLanguageEntity>? spokenLanguages;
   final String? status;
   final String? tagline;

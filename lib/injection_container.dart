@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:moviki/features/movie/data/data_sources/local/app_database.dart';
 import 'package:moviki/features/movie/data/data_sources/remote/movie_api_service.dart';
 import 'package:moviki/features/movie/data/repository/movie_provider_repository_impl.dart';
 import 'package:moviki/features/movie/data/repository/movie_repository_impl.dart';
@@ -22,6 +23,11 @@ import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_
 final getIt = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  final database =
+      await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+
+  getIt.registerSingleton<AppDatabase>(database);
+
   getIt.registerSingleton<Dio>(Dio());
 
   getIt.registerSingleton<MovieApiService>(MovieApiService(getIt()));
