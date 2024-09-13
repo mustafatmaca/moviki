@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
+import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_state.dart';
@@ -24,15 +26,39 @@ class MovieDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.black,
-                  image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
+            Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.black,
+                      image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                              "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
+                ),
+                Positioned(
+                    top: MediaQuery.of(context).size.height * 0.015,
+                    right: MediaQuery.of(context).size.width * 0.02,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.black,
+                        child: IconButton(
+                            color: Colors.black,
+                            onPressed: () {
+                              context
+                                  .read<FavoriteMovieBloc>()
+                                  .add(SaveMovie(movie));
+                            },
+                            icon: const Icon(
+                              Icons.favorite,
+                              color: Color(0xFFFF5046),
+                            )),
+                      ),
+                    )),
+              ],
             ),
             Container(
               child: Column(

@@ -5,6 +5,8 @@ import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dar
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_state.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_state.dart';
@@ -12,6 +14,7 @@ import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
 import 'package:moviki/features/movie/presentation/pages/movie_list_screen.dart';
+import 'package:moviki/features/movie/presentation/widgets/custom_list_card.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_top_slider.dart';
 import 'package:moviki/injection_container.dart';
@@ -44,205 +47,258 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         backgroundColor: Colors.black,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              BlocBuilder<RemotePopularMovieBloc, RemotePopularMovieState>(
-                builder: (context, state) {
-                  if (state is RemotePopularMovieInitial) {
-                    context
-                        .read<RemotePopularMovieBloc>()
-                        .add(GetPopularMovies());
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                    );
-                  } else if (state is RemotePopularMovieLoading) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFFF5046),
-                        ),
-                      ),
-                    );
-                  } else if (state is RemotePopularMovieLoaded) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.60,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: CustomTopSlider(
-                        movieList: state.movies!.sublist(0, 3),
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(child: Text("Something went wrong!")),
-                    );
-                  }
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Top Movies",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  BlocProvider<AllPopularBloc>.value(
-                                    value: getIt(),
-                                    child: const MovieListScreen(
-                                        title: "Top Movies"),
-                                  )));
-                    },
-                    child: const Row(
+        body: state.currentIndex == 0
+            ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    BlocBuilder<RemotePopularMovieBloc,
+                        RemotePopularMovieState>(
+                      builder: (context, state) {
+                        if (state is RemotePopularMovieInitial) {
+                          context
+                              .read<RemotePopularMovieBloc>()
+                              .add(GetPopularMovies());
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.65,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                          );
+                        } else if (state is RemotePopularMovieLoading) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.65,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFFF5046),
+                              ),
+                            ),
+                          );
+                        } else if (state is RemotePopularMovieLoaded) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.60,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: CustomTopSlider(
+                              movieList: state.movies!.sublist(0, 3),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.65,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                                child: Text("Something went wrong!")),
+                          );
+                        }
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "See All",
-                          style:
-                              TextStyle(color: Color(0xFFFF5046), fontSize: 16),
+                        const Text(
+                          "Top Movies",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color(0xFFFF5046),
-                          size: 16,
-                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BlocProvider<AllPopularBloc>.value(
+                                          value: getIt(),
+                                          child: const MovieListScreen(
+                                              title: "Top Movies"),
+                                        )));
+                          },
+                          child: const Row(
+                            children: [
+                              Text(
+                                "See All",
+                                style: TextStyle(
+                                    color: Color(0xFFFF5046), fontSize: 16),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFFFF5046),
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
-              BlocBuilder<RemotePopularMovieBloc, RemotePopularMovieState>(
-                builder: (context, state) {
-                  if (state is RemotePopularMovieInitial) {
-                    context
-                        .read<RemotePopularMovieBloc>()
-                        .add(GetPopularMovies());
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                    );
-                  } else if (state is RemotePopularMovieLoading) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFFF5046),
-                        ),
-                      ),
-                    );
-                  } else if (state is RemotePopularMovieLoaded) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: CustomSlider(
-                        movieList: state.movies!.sublist(3),
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(child: Text("Something went wrong!")),
-                    );
-                  }
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Top Rated",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  BlocProvider<AllTopBloc>.value(
-                                    value: getIt(),
-                                    child: const MovieListScreen(
-                                        title: "Top Rated"),
-                                  )));
-                    },
-                    child: const Row(
+                    BlocBuilder<RemotePopularMovieBloc,
+                        RemotePopularMovieState>(
+                      builder: (context, state) {
+                        if (state is RemotePopularMovieInitial) {
+                          context
+                              .read<RemotePopularMovieBloc>()
+                              .add(GetPopularMovies());
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                          );
+                        } else if (state is RemotePopularMovieLoading) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFFF5046),
+                              ),
+                            ),
+                          );
+                        } else if (state is RemotePopularMovieLoaded) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: CustomSlider(
+                              movieList: state.movies!.sublist(3),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                                child: Text("Something went wrong!")),
+                          );
+                        }
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "See All",
-                          style:
-                              TextStyle(color: Color(0xFFFF5046), fontSize: 16),
+                        const Text(
+                          "Top Rated",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color(0xFFFF5046),
-                          size: 16,
-                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BlocProvider<AllTopBloc>.value(
+                                          value: getIt(),
+                                          child: const MovieListScreen(
+                                              title: "Top Rated"),
+                                        )));
+                          },
+                          child: const Row(
+                            children: [
+                              Text(
+                                "See All",
+                                style: TextStyle(
+                                    color: Color(0xFFFF5046), fontSize: 16),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFFFF5046),
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
+                    BlocBuilder<RemoteTopMovieBloc, RemoteTopMovieState>(
+                      builder: (context, state) {
+                        if (state is RemoteTopMovieInitial) {
+                          context
+                              .read<RemoteTopMovieBloc>()
+                              .add(GetTopRatedMovies());
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                          );
+                        } else if (state is RemoteTopMovieLoading) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFFF5046),
+                              ),
+                            ),
+                          );
+                        } else if (state is RemoteTopMovieLoaded) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: CustomSlider(
+                              movieList: state.movies!,
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.transparent,
+                            child: const Center(
+                                child: Text("Something went wrong!")),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              )
+            : state.currentIndex == 1
+                ? BlocBuilder<FavoriteMovieBloc, FavoriteMovieState>(
+                    builder: (context, state) {
+                      if (state is FavoriteMovieLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFFF5046),
+                          ),
+                        );
+                      } else if (state is FavoriteMovieLoaded) {
+                        if (state.movies != null) {
+                          return state.movies!.isEmpty
+                              ? const Center(
+                                  child: Text(
+                                    "There is no fav movie!",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )
+                              : Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.transparent,
+                                  child: ListView.builder(
+                                    itemCount: state.movies!.length,
+                                    itemBuilder: (context, index) {
+                                      return CustomListCard(
+                                          movie: state.movies![index]);
+                                    },
+                                  ));
+                        } else {
+                          return const Center(
+                            child: Text(
+                              "There is no fav movie!",
+                              style: TextStyle(color: Colors.white38),
+                            ),
+                          );
+                        }
+                      } else {
+                        return const Center(
+                          child: Text("Something went wrong!"),
+                        );
+                      }
+                    },
                   )
-                ],
-              ),
-              BlocBuilder<RemoteTopMovieBloc, RemoteTopMovieState>(
-                builder: (context, state) {
-                  if (state is RemoteTopMovieInitial) {
-                    context.read<RemoteTopMovieBloc>().add(GetTopRatedMovies());
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                    );
-                  } else if (state is RemoteTopMovieLoading) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFFF5046),
-                        ),
-                      ),
-                    );
-                  } else if (state is RemoteTopMovieLoaded) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: CustomSlider(
-                        movieList: state.movies!,
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.transparent,
-                      child: const Center(child: Text("Something went wrong!")),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
+                : Container(),
       );
     });
   }

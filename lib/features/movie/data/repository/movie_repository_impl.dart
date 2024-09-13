@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:moviki/core/constants/constants.dart';
 import 'package:moviki/core/resources/data_state.dart';
+import 'package:moviki/features/movie/data/data_sources/local/app_database.dart';
 import 'package:moviki/features/movie/data/data_sources/remote/movie_api_service.dart';
 import 'package:moviki/features/movie/data/models/movie_model.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
@@ -10,8 +11,9 @@ import 'package:moviki/features/movie/domain/repository/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieApiService _movieApiService;
+  final AppDatabase _appDatabase;
 
-  MovieRepositoryImpl(this._movieApiService);
+  MovieRepositoryImpl(this._movieApiService, this._appDatabase);
 
   @override
   Future<DataState<List<MovieModel>>> getPopularMovies(int? page) async {
@@ -111,5 +113,20 @@ class MovieRepositoryImpl implements MovieRepository {
     } on DioException catch (e) {
       return DataFailed(e);
     }
+  }
+
+  @override
+  Future<List<MovieEntity>> getFavoriteMovies() {
+    return _appDatabase.movieDAO.getMovies();
+  }
+
+  @override
+  Future<void> removeMovie(MovieEntity movie) {
+    return _appDatabase.movieDAO.deleteMovie(MovieModel.fromEntity(movie));
+  }
+
+  @override
+  Future<void> saveMovie(MovieEntity movie) {
+    return _appDatabase.movieDAO.insertMovie(MovieModel.fromEntity(movie));
   }
 }

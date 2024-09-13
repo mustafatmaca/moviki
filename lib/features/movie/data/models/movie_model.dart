@@ -106,8 +106,10 @@ class MovieModel extends MovieEntity {
       adult: entity.adult,
       backdropPath: entity.backdropPath,
       budget: entity.budget,
-      genres: List<GenreModel>.from(
-          entity.genres!.map((x) => GenreModel.fromEntity(x))),
+      genres: entity.genres != null
+          ? List<GenreModel>.from(
+              entity.genres!.map((x) => GenreModel.fromEntity(x)))
+          : null,
       originalLanguage: entity.originalLanguage,
       originalTitle: entity.originalTitle,
       overview: entity.overview,
@@ -116,8 +118,10 @@ class MovieModel extends MovieEntity {
       releaseDate: entity.releaseDate,
       revenue: entity.revenue,
       runtime: entity.runtime,
-      spokenLanguages: List<SpokenLanguageModel>.from(entity.spokenLanguages!
-          .map((x) => SpokenLanguageModel.fromEntity(x))),
+      spokenLanguages: entity.spokenLanguages != null
+          ? List<SpokenLanguageModel>.from(entity.spokenLanguages!
+              .map((x) => SpokenLanguageModel.fromEntity(x)))
+          : null,
       status: entity.status,
       tagline: entity.tagline,
       title: entity.title,
