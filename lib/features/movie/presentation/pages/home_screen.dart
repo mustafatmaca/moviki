@@ -37,12 +37,17 @@ class HomeScreen extends StatelessWidget {
           selectedItemColor: const Color(0xFFFF5046),
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
+                icon: Icon(
+                    state.currentIndex == 0 ? Icons.home : Icons.home_outlined),
+                label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_outline), label: "Favorite"),
-            BottomNavigationBarItem(
+                icon: Icon(state.currentIndex == 1
+                    ? Icons.favorite
+                    : Icons.favorite_outline),
+                label: "Favorite"),
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.search_outlined), label: "Search"),
           ],
         ),

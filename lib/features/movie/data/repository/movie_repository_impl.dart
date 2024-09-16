@@ -129,4 +129,9 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<void> saveMovie(MovieEntity movie) {
     return _appDatabase.movieDAO.insertMovie(MovieModel.fromEntity(movie));
   }
+
+  @override
+  Future<MovieEntity?> getFavoriteMovieById(int id) {
+    return _appDatabase.movieDAO.findMovieById(id);
+  }
 }

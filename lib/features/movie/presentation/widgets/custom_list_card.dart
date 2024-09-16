@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
+import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
@@ -24,6 +25,7 @@ class CustomListCard extends StatelessWidget {
                         BlocProvider<MovieProvidersBloc>.value(value: getIt()),
                         BlocProvider<MovieRuntimeBloc>.value(value: getIt()),
                         BlocProvider<SimilarMoviesBloc>.value(value: getIt()),
+                        BlocProvider<IsFavoriteBloc>.value(value: getIt()),
                       ],
                       child: MovieDetailScreen(movie: movie),
                     )));

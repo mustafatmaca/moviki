@@ -198,6 +198,31 @@ class _$MovieDao extends MovieDao {
   }
 
   @override
+  Future<MovieModel?> findMovieById(int id) async {
+    return _queryAdapter.query('SELECT * FROM movie WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => MovieModel(
+            id: row['id'] as int?,
+            adult: row['adult'] == null ? null : (row['adult'] as int) != 0,
+            backdropPath: row['backdropPath'] as String?,
+            budget: row['budget'] as int?,
+            originalLanguage: row['originalLanguage'] as String?,
+            originalTitle: row['originalTitle'] as String?,
+            overview: row['overview'] as String?,
+            popularity: row['popularity'] as double?,
+            posterPath: row['posterPath'] as String?,
+            releaseDate: row['releaseDate'] as String?,
+            revenue: row['revenue'] as int?,
+            runtime: row['runtime'] as int?,
+            status: row['status'] as String?,
+            tagline: row['tagline'] as String?,
+            title: row['title'] as String?,
+            video: row['video'] == null ? null : (row['video'] as int) != 0,
+            voteAverage: row['voteAverage'] as double?,
+            voteCount: row['voteCount'] as int?),
+        arguments: [id]);
+  }
+
+  @override
   Future<void> insertMovie(MovieModel movie) async {
     await _movieModelInsertionAdapter.insert(movie, OnConflictStrategy.abort);
   }

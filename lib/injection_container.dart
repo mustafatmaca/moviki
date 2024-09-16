@@ -6,6 +6,7 @@ import 'package:moviki/features/movie/data/repository/movie_provider_repository_
 import 'package:moviki/features/movie/data/repository/movie_repository_impl.dart';
 import 'package:moviki/features/movie/domain/repository/movie_provider_repository.dart';
 import 'package:moviki/features/movie/domain/repository/movie_repository.dart';
+import 'package:moviki/features/movie/domain/usecases/get_fav_movie_by_id.dart';
 import 'package:moviki/features/movie/domain/usecases/get_favorite_movie.dart';
 import 'package:moviki/features/movie/domain/usecases/get_movie_provider.dart';
 import 'package:moviki/features/movie/domain/usecases/get_movie_runtime.dart';
@@ -18,6 +19,7 @@ import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
@@ -55,6 +57,8 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton(GetFavoriteMovieUseCase(getIt()));
 
+  getIt.registerSingleton(GetFavMovieByIdUseCase(getIt()));
+
   getIt.registerSingleton(SaveMovieUseCase(getIt()));
 
   getIt.registerSingleton(RemoveMovieUseCase(getIt()));
@@ -78,5 +82,9 @@ Future<void> initializeDependencies() async {
 
   getIt.registerFactory<FavoriteMovieBloc>(
     () => FavoriteMovieBloc(getIt(), getIt(), getIt()),
+  );
+
+  getIt.registerFactory<IsFavoriteBloc>(
+    () => IsFavoriteBloc(getIt()),
   );
 }

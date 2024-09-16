@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_state.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_state.dart';
@@ -45,17 +48,48 @@ class MovieDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         backgroundColor: Colors.black,
-                        child: IconButton(
-                            color: Colors.black,
-                            onPressed: () {
+                        child: BlocBuilder<IsFavoriteBloc, IsFavoriteState>(
+                          builder: (context, state) {
+                            if (state is IsFavoriteInitial) {
                               context
-                                  .read<FavoriteMovieBloc>()
-                                  .add(SaveMovie(movie));
-                            },
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: Color(0xFFFF5046),
-                            )),
+                                  .read<IsFavoriteBloc>()
+                                  .add(GetFavoriteMovieById(movie.id!));
+                              return Container();
+                            } else if (state is IsFavoriteLoaded) {
+                              return IconButton(
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    context
+                                        .read<FavoriteMovieBloc>()
+                                        .add(RemoveMovie(movie));
+                                    context
+                                        .read<IsFavoriteBloc>()
+                                        .add(GetFavoriteMovieById(movie.id!));
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: Color(0xFFFF5046),
+                                  ));
+                            } else if (state is IsFavoriteError) {
+                              return IconButton(
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    context
+                                        .read<FavoriteMovieBloc>()
+                                        .add(SaveMovie(movie));
+                                    context
+                                        .read<IsFavoriteBloc>()
+                                        .add(GetFavoriteMovieById(movie.id!));
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite_border,
+                                    color: Color(0xFFFF5046),
+                                  ));
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
                       ),
                     )),
               ],
@@ -320,6 +354,9 @@ class MovieDetailScreen extends StatelessWidget {
                                                                 value: getIt()),
                                                             BlocProvider<
                                                                     SimilarMoviesBloc>.value(
+                                                                value: getIt()),
+                                                            BlocProvider<
+                                                                    IsFavoriteBloc>.value(
                                                                 value: getIt()),
                                                           ],
                                                           child:
