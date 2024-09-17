@@ -10,6 +10,9 @@ import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_state.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_state.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
@@ -303,18 +306,20 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   )
-                : Container(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.032,
-                      left: 8,
-                      right: 8,
-                    ),
-                    child: Column(
-                      children: [
-                        TextFormField(
+                : Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.032,
+                          left: 8,
+                          right: 8,
+                        ),
+                        child: TextFormField(
                           style: const TextStyle(color: Colors.white),
                           onChanged: (value) {
-                            // event call
+                            context
+                                .read<SearchMovieBloc>()
+                                .add(SearchMovies(query: value));
                           },
                           decoration: const InputDecoration(
                               filled: true,
@@ -343,12 +348,29 @@ class HomeScreen extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(24)))),
                         ),
-                        // bloc building
-                        // ListView.builder(itemCount: , itemBuilder: (context, index) {
-                        //   return CustomListCard(movie: movie)
-                        // },)
-                      ],
-                    ),
+                      ),
+                      BlocBuilder<SearchMovieBloc, SearchMovieState>(
+                        builder: (context, state) {
+                          if (state is SearchMovieLoaded) {
+                            return Expanded(
+                              child: ListView.builder(
+                                itemCount: state.movies!.length,
+                                itemBuilder: (context, index) {
+                                  return CustomListCard(
+                                      movie: state.movies![index]);
+                                },
+                              ),
+                            );
+                          } else if (state is SearchMovieError) {
+                            return const Center(
+                              child: Text("Something went wrong!"),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      )
+                    ],
                   ),
       );
     });
