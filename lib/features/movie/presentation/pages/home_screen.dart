@@ -303,7 +303,53 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   )
-                : Container(),
+                : Container(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.032,
+                      left: 8,
+                      right: 8,
+                    ),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          onChanged: (value) {
+                            // event call
+                          },
+                          decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white12,
+                              hintText: 'Search Movie...',
+                              hintStyle: TextStyle(color: Colors.white38),
+                              suffixIcon: Icon(Icons.search),
+                              suffixIconColor: Color(0xFFFF5046),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(24)),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 2.0,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(24)),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(24)))),
+                        ),
+                        // bloc building
+                        // ListView.builder(itemCount: , itemBuilder: (context, index) {
+                        //   return CustomListCard(movie: movie)
+                        // },)
+                      ],
+                    ),
+                  ),
       );
     });
   }
