@@ -45,4 +45,10 @@ abstract class MovieApiService {
     @Path("movie_id") int? movieId,
     @Query("api_key") String? apiKey,
   });
+
+  @GET('/search/movie')
+  Future<HttpResponse<List<MovieModel>>> searchMovies({
+    @Query("api_key") String? apiKey,
+    @Query("query") String? query,
+  });
 }

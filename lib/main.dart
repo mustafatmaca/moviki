@@ -6,6 +6,8 @@ import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_event.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
@@ -24,6 +26,9 @@ Future<void> main() async {
       ),
       BlocProvider<FavoriteMovieBloc>(
         create: (context) => getIt()..add(const GetFavoriteMovies()),
+      ),
+      BlocProvider<SearchMovieBloc>(
+        create: (context) => getIt()..add(const SearchMovies()),
       ),
       BlocProvider<BottomNavigationBloc>(
         create: (context) => getIt()..add(const ChangePage(0)),

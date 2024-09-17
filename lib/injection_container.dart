@@ -15,6 +15,7 @@ import 'package:moviki/features/movie/domain/usecases/get_similar_movies.dart';
 import 'package:moviki/features/movie/domain/usecases/get_toprated_movie.dart';
 import 'package:moviki/features/movie/domain/usecases/remove_movie.dart';
 import 'package:moviki/features/movie/domain/usecases/save_movie.dart';
+import 'package:moviki/features/movie/domain/usecases/search_movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
@@ -23,6 +24,7 @@ import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_runtime/movie_runtime_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/remote_popular_movie_bloc.dart';
+import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 
@@ -55,6 +57,8 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton(GetMovieRuntimeUseCase(getIt()));
 
+  getIt.registerSingleton(SearchMovieUseCase(getIt()));
+
   getIt.registerSingleton(GetFavoriteMovieUseCase(getIt()));
 
   getIt.registerSingleton(GetFavMovieByIdUseCase(getIt()));
@@ -77,6 +81,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<SimilarMoviesBloc>(() => SimilarMoviesBloc(getIt()));
 
   getIt.registerFactory<MovieRuntimeBloc>(() => MovieRuntimeBloc(getIt()));
+
+  getIt.registerFactory<SearchMovieBloc>(() => SearchMovieBloc(getIt()));
 
   getIt.registerFactory<BottomNavigationBloc>(() => BottomNavigationBloc());
 
