@@ -2,9 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  void changeIsOpen() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isOpen', true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +62,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        changeIsOpen();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
