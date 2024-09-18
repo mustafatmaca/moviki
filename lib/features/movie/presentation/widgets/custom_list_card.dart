@@ -37,15 +37,29 @@ class CustomListCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.26,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.black,
-                  image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          "https://image.tmdb.org/t/p/w200/${movie.posterPath}"))),
-            ),
+            movie.posterPath != null
+                ? Container(
+                    width: MediaQuery.of(context).size.width * 0.26,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.black,
+                        image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                "https://image.tmdb.org/t/p/w200/${movie.posterPath}"))),
+                  )
+                : Container(
+                    width: MediaQuery.of(context).size.width * 0.26,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.black,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "NO IMAGE",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
             Container(
               padding: EdgeInsets.only(left: 4.0, top: 2, bottom: 2),
               width: MediaQuery.of(context).size.width * 0.68,
@@ -63,10 +77,14 @@ class CustomListCard extends StatelessWidget {
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
-                      Text(
-                        movie.releaseDate!.substring(0, 4),
-                        style: TextStyle(color: Colors.white54, fontSize: 14),
-                      ),
+                      movie.releaseDate != null &&
+                              movie.releaseDate!.length >= 5
+                          ? Text(
+                              movie.releaseDate!.substring(0, 4),
+                              style: const TextStyle(
+                                  color: Colors.white54, fontSize: 14),
+                            )
+                          : Container(),
                     ],
                   ),
                   SizedBox(

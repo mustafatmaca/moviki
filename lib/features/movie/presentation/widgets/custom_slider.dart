@@ -49,14 +49,28 @@ buildFilmCard(MovieEntity movie, BuildContext context) {
                       child: MovieDetailScreen(movie: movie),
                     )));
       },
-      child: Container(
-        margin: const EdgeInsets.only(right: 8.0),
-        decoration: BoxDecoration(
-            color: Colors.black,
-            image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                    "https://image.tmdb.org/t/p/w200/${movie.posterPath}"))),
-      ),
+      child: movie.posterPath != null
+          ? Container(
+              margin: const EdgeInsets.only(right: 8.0),
+              decoration: BoxDecoration(
+                  color: Colors.black,
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                          "https://image.tmdb.org/t/p/w200/${movie.posterPath}"))),
+            )
+          : Container(
+              width: MediaQuery.of(context).size.width * 0.26,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.black,
+              ),
+              child: const Center(
+                child: Text(
+                  "NO IMAGE",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
     ),
   );
 }

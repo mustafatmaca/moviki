@@ -31,16 +31,30 @@ class MovieDetailScreen extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.black,
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
-                ),
+                movie.posterPath != null
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.black,
+                            image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width * 0.26,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "NO IMAGE",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
                 Positioned(
                     top: MediaQuery.of(context).size.height * 0.015,
                     right: MediaQuery.of(context).size.width * 0.02,
@@ -366,23 +380,49 @@ class MovieDetailScreen extends StatelessWidget {
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.23,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.3,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: Colors.transparent,
-                                                  image: DecorationImage(
-                                                      image: CachedNetworkImageProvider(
-                                                          "https://image.tmdb.org/t/p/w200/${e.posterPath}"))),
-                                            ),
+                                            child: e.posterPath != null
+                                                ? Container(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.23,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.3,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                        color:
+                                                            Colors.transparent,
+                                                        image: DecorationImage(
+                                                            image: CachedNetworkImageProvider(
+                                                                "https://image.tmdb.org/t/p/w200/${e.posterPath}"))),
+                                                  )
+                                                : Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.26,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      color: Colors.black,
+                                                    ),
+                                                    child: const Center(
+                                                      child: Text(
+                                                        "NO IMAGE",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       )
