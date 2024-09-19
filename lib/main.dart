@@ -11,6 +11,8 @@ import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movi
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
+import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
+import 'package:moviki/features/splash/presentation/bloc/country/country_event.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
 import 'package:moviki/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +37,9 @@ Future<void> main() async {
       ),
       BlocProvider<BottomNavigationBloc>(
         create: (context) => getIt()..add(const ChangePage(0)),
+      ),
+      BlocProvider<CountryBloc>(
+        create: (context) => getIt()..add(const GetCountries()),
       ),
     ],
     child: MaterialApp(

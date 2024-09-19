@@ -27,6 +27,11 @@ import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/rem
 import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
+import 'package:moviki/features/splash/data/data_sources/remote/country_api_service.dart';
+import 'package:moviki/features/splash/data/repository/country_repository_impl.dart';
+import 'package:moviki/features/splash/domain/repository/country_repository.dart';
+import 'package:moviki/features/splash/domain/usecases/get_countries.dart';
+import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,11 +45,15 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<MovieApiService>(MovieApiService(getIt()));
 
+  getIt.registerSingleton<CountryApiService>(CountryApiService(getIt()));
+
   getIt.registerSingleton<MovieRepository>(
       MovieRepositoryImpl(getIt(), getIt()));
 
   getIt.registerSingleton<MovieProviderRepository>(
       MovieProviderRepositoryImpl(getIt()));
+
+  getIt.registerSingleton<CountryRepository>(CountryRepositoryImpl(getIt()));
 
   getIt.registerSingleton<GetPopularMovieUseCase>(
       GetPopularMovieUseCase(getIt()));
@@ -66,6 +75,8 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton(SaveMovieUseCase(getIt()));
 
   getIt.registerSingleton(RemoveMovieUseCase(getIt()));
+
+  getIt.registerSingleton(GetCountriesUseCase(getIt()));
 
   getIt.registerFactory<RemotePopularMovieBloc>(
       () => RemotePopularMovieBloc(getIt()));
@@ -92,5 +103,9 @@ Future<void> initializeDependencies() async {
 
   getIt.registerFactory<IsFavoriteBloc>(
     () => IsFavoriteBloc(getIt()),
+  );
+
+  getIt.registerFactory<CountryBloc>(
+    () => CountryBloc(getIt()),
   );
 }
