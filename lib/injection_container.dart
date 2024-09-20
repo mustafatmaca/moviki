@@ -32,6 +32,7 @@ import 'package:moviki/features/splash/data/repository/country_repository_impl.d
 import 'package:moviki/features/splash/domain/repository/country_repository.dart';
 import 'package:moviki/features/splash/domain/usecases/get_countries.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
+import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -107,5 +108,9 @@ Future<void> initializeDependencies() async {
 
   getIt.registerFactory<CountryBloc>(
     () => CountryBloc(getIt()),
+  );
+
+  getIt.registerFactory<SelectCountryBloc>(
+    () => SelectCountryBloc(),
   );
 }

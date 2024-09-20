@@ -13,6 +13,7 @@ import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_event.dart';
+import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
 import 'package:moviki/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +41,9 @@ Future<void> main() async {
       ),
       BlocProvider<CountryBloc>(
         create: (context) => getIt()..add(const GetCountries()),
+      ),
+      BlocProvider<SelectCountryBloc>(
+        create: (context) => getIt(),
       ),
     ],
     child: MaterialApp(

@@ -4,12 +4,11 @@ import 'package:moviki/features/splash/domain/entities/country.dart';
 
 abstract class CountryState extends Equatable {
   final List<CountryEntity>? countries;
-  final CountryEntity? selectedCountry;
   final DioException? error;
-  const CountryState({this.countries, this.selectedCountry, this.error});
+  const CountryState({this.countries, this.error});
 
   @override
-  List<Object> get props => [countries!, selectedCountry!, error!];
+  List<Object> get props => [countries!, error!];
 }
 
 final class CountryInitial extends CountryState {
@@ -21,12 +20,8 @@ final class CountryLoading extends CountryState {
 }
 
 final class CountryLoaded extends CountryState {
-  const CountryLoaded(
-      List<CountryEntity>? countries, CountryEntity? selectedCountry)
-      : super(
-          countries: countries,
-          selectedCountry: selectedCountry,
-        );
+  const CountryLoaded(List<CountryEntity> countries)
+      : super(countries: countries);
 }
 
 final class CountryError extends CountryState {

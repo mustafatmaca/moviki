@@ -10,37 +10,20 @@ class CountryBloc extends Bloc<CountryEvent, CountryState> {
   final GetCountriesUseCase _getCountriesUseCase;
   CountryBloc(this._getCountriesUseCase) : super(const CountryInitial()) {
     on<GetCountries>(onGetCountries);
-    on<SelectCountry>(onSelectCountry);
   }
 
-  Future<FutureOr<void>> onGetCountries(
+  Future<void> onGetCountries(
       GetCountries event, Emitter<CountryState> emit) async {
+    emit(const CountryLoading());
+
     final dataState = await _getCountriesUseCase();
 
     if (dataState is DataSuccess) {
-      emit(CountryLoaded(dataState.data!,
-          dataState.data!.singleWhere((element) => element.iso31661 == "US")));
+      emit(CountryLoaded(dataState.data!));
     }
 
     if (dataState is DataFailed) {
       emit(CountryError(dataState.error!));
-    }
-  }
-
-  Future<FutureOr<void>> onSelectCountry(
-      SelectCountry event, Emitter<CountryState> emit) async {
-    if (state is CountryLoaded) {
-      emit(CountryLoaded(state.countries, event.selectedCountry));
-    } else {
-      final dataState = await _getCountriesUseCase();
-
-      if (dataState is DataSuccess) {
-        emit(CountryLoaded(dataState.data!, event.selectedCountry));
-      }
-
-      if (dataState is DataFailed) {
-        emit(CountryError(dataState.error!));
-      }
     }
   }
 }

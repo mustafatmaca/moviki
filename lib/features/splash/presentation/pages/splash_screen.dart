@@ -5,8 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
-import 'package:moviki/features/splash/presentation/bloc/country/country_event.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_state.dart';
+import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
+import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_event.dart';
+import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -65,115 +67,84 @@ class SplashScreen extends StatelessWidget {
                       "Get knowledge about films and series!",
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
-                    BlocBuilder<CountryBloc, CountryState>(
-                      builder: (context, state) {
-                        if (state is CountryLoaded) {
-                          return OutlinedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
+                    OutlinedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.black,
+                            showDragHandle: true,
+                            context: context,
+                            builder: (context) {
+                              return BlocBuilder<CountryBloc, CountryState>(
+                                builder: (context, state) {
+                                  if (state is CountryLoaded) {
                                     return ListView.builder(
                                       itemCount: state.countries!.length,
                                       itemBuilder: (context, index) {
                                         return ListTile(
                                           onTap: () {
-                                            context.read<CountryBloc>().add(
-                                                SelectCountry(
+                                            context
+                                                .read<SelectCountryBloc>()
+                                                .add(SelectCountry(
                                                     state.countries![index]));
+                                            Navigator.pop(context);
                                           },
-                                          leading: Text(state
-                                              .countries![index].iso31661!),
-                                          title: Text(state
-                                              .countries![index].englishName!),
-                                          trailing: state.countries![index] ==
-                                                  state.selectedCountry
-                                              ? const Icon(Icons.check)
-                                              : null,
+                                          leading: Text(
+                                            state.countries![index].iso31661!,
+                                            style: const TextStyle(
+                                                color: Colors.white60),
+                                          ),
+                                          title: Text(
+                                            state
+                                                .countries![index].englishName!,
+                                            style: const TextStyle(
+                                                color: Colors.white60),
+                                          ),
                                         );
                                       },
                                     );
-                                  },
-                                );
-                              },
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  minimumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height *
-                                          0.07)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
+                                  } else {
+                                    return const Center(
+                                      child: Text("Something went wrong!"),
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            foregroundColor: Colors.white60,
+                            minimumSize: Size(MediaQuery.of(context).size.width,
+                                MediaQuery.of(context).size.height * 0.07)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BlocBuilder<SelectCountryBloc, SelectCountryState>(
+                              builder: (context, state) {
+                                if (state is SelectCountryLoaded) {
+                                  return Text(
                                     "${state.selectedCountry!.iso31661} - ${state.selectedCountry!.englishName}",
-                                    style: const TextStyle(color: Colors.white),
+                                    style:
+                                        const TextStyle(color: Colors.white60),
                                     overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: MediaQuery.of(context).size.width *
-                                        0.04,
-                                  )
-                                ],
-                              ));
-                        } else if (state is CountryError) {
-                          return OutlinedButton(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  minimumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height *
-                                          0.07)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Something went wrong!",
-                                    style: TextStyle(color: Colors.white),
+                                  );
+                                } else {
+                                  return const Text(
+                                    "Select Country",
+                                    style: TextStyle(color: Colors.white60),
                                     overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: MediaQuery.of(context).size.width *
-                                        0.04,
-                                  )
-                                ],
-                              ));
-                        } else {
-                          return OutlinedButton(
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.white,
-                                  minimumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height *
-                                          0.07)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Country",
-                                    style: TextStyle(color: Colors.white),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: MediaQuery.of(context).size.width *
-                                        0.04,
-                                  )
-                                ],
-                              ));
-                        }
-                      },
-                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: MediaQuery.of(context).size.width * 0.04,
+                              color: Colors.white60,
+                            )
+                          ],
+                        )),
                     ElevatedButton(
                       onPressed: () {
                         changeIsOpen();
