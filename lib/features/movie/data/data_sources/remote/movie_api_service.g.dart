@@ -18,6 +18,11 @@ class _MovieApiService implements MovieApiService {
 
   final Dio _dio;
 
+  Future<String?> getRegion() async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('country');
+  }
+
   String? baseUrl;
 
   @override
@@ -32,7 +37,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page ?? 1,
       r'language': language,
-      r'region': region,
+      r'region': await getRegion(),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -73,7 +78,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page ?? 1,
       r'language': language,
-      r'region': region,
+      r'region': await getRegion(),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -131,8 +136,8 @@ class _MovieApiService implements MovieApiService {
             ))));
     if ((_result.data!['results']) != null) {
       if ((_result.data!['results'] as Map<String, dynamic>)
-          .containsKey('US')) {
-        var _countryList = _result.data!['results']['US'];
+          .containsKey(await getRegion())) {
+        var _countryList = _result.data!['results'][await getRegion()];
         if ((_countryList as Map<String, dynamic>).containsKey('flatrate')) {
           var _provList = _countryList['flatrate'];
           var _value = (_provList as List<dynamic>)
@@ -170,7 +175,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page,
       r'language': language,
-      r'region': region,
+      r'region': await getRegion(),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

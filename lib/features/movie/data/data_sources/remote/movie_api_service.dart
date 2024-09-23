@@ -3,6 +3,7 @@ import 'package:moviki/core/constants/constants.dart';
 import 'package:moviki/features/movie/data/models/movie_model.dart';
 import 'package:moviki/features/movie/data/models/movie_provider_model.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'movie_api_service.g.dart';
 
