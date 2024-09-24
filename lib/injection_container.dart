@@ -29,10 +29,17 @@ import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_m
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/splash/data/data_sources/remote/country_api_service.dart';
 import 'package:moviki/features/splash/data/repository/country_repository_impl.dart';
+import 'package:moviki/features/splash/data/repository/shared_prefs_repository_impl.dart';
 import 'package:moviki/features/splash/domain/repository/country_repository.dart';
+import 'package:moviki/features/splash/domain/repository/shared_prefs_repository.dart';
 import 'package:moviki/features/splash/domain/usecases/get_countries.dart';
+import 'package:moviki/features/splash/domain/usecases/get_country.dart';
+import 'package:moviki/features/splash/domain/usecases/get_is_open.dart';
+import 'package:moviki/features/splash/domain/usecases/set_country.dart';
+import 'package:moviki/features/splash/domain/usecases/set_is_open.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
 import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -44,7 +51,12 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<Dio>(Dio());
 
-  getIt.registerSingleton<MovieApiService>(MovieApiService(getIt()));
+  getIt.registerLazySingletonAsync<SharedPreferences>(
+      () => SharedPreferences.getInstance());
+
+  await getIt.isReady<SharedPreferences>();
+
+  getIt.registerSingleton<MovieApiService>(MovieApiService(getIt(), getIt()));
 
   getIt.registerSingleton<CountryApiService>(CountryApiService(getIt()));
 
@@ -55,6 +67,9 @@ Future<void> initializeDependencies() async {
       MovieProviderRepositoryImpl(getIt()));
 
   getIt.registerSingleton<CountryRepository>(CountryRepositoryImpl(getIt()));
+
+  getIt.registerSingleton<SharedPrefsRepository>(
+      SharedPrefsRepositoryImpl(getIt()));
 
   getIt.registerSingleton<GetPopularMovieUseCase>(
       GetPopularMovieUseCase(getIt()));
@@ -78,6 +93,14 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton(RemoveMovieUseCase(getIt()));
 
   getIt.registerSingleton(GetCountriesUseCase(getIt()));
+
+  getIt.registerSingleton<GetCountryUseCase>(GetCountryUseCase(getIt()));
+
+  getIt.registerSingleton<SetCountryUseCase>(SetCountryUseCase(getIt()));
+
+  getIt.registerSingleton<GetIsOpenUseCase>(GetIsOpenUseCase(getIt()));
+
+  getIt.registerSingleton<SetIsOpenUseCase>(SetIsOpenUseCase(getIt()));
 
   getIt.registerFactory<RemotePopularMovieBloc>(
       () => RemotePopularMovieBloc(getIt()));

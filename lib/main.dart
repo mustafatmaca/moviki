@@ -11,16 +11,15 @@ import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movi
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
+import 'package:moviki/features/splash/domain/usecases/get_is_open.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_event.dart';
 import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
 import 'package:moviki/features/splash/presentation/pages/splash_screen.dart';
 import 'package:moviki/injection_container.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
   await initializeDependencies();
   runApp(MultiBlocProvider(
     providers: [
@@ -49,7 +48,8 @@ Future<void> main() async {
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Moviki',
-      home: prefs.getBool('isOpen') == null || prefs.getBool('isOpen') == false
+      home: await getIt<GetIsOpenUseCase>().call() == null ||
+              await getIt<GetIsOpenUseCase>().call() == false
           ? const SplashScreen()
           : const HomeScreen(),
     ),

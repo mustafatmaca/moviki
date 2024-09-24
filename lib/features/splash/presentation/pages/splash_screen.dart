@@ -1,27 +1,26 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
+import 'package:moviki/features/splash/domain/usecases/set_country.dart';
+import 'package:moviki/features/splash/domain/usecases/set_is_open.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
 import 'package:moviki/features/splash/presentation/bloc/country/country_state.dart';
 import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
 import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_event.dart';
 import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:moviki/injection_container.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   void changeIsOpen() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isOpen', true);
+    getIt<SetIsOpenUseCase>().call(params: true);
   }
 
   void setCountry(String country) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('country', country);
+    getIt<SetCountryUseCase>().call(params: country);
   }
 
   @override

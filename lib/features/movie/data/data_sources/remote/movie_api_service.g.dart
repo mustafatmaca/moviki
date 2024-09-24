@@ -10,7 +10,8 @@ part of 'movie_api_service.dart';
 
 class _MovieApiService implements MovieApiService {
   _MovieApiService(
-    this._dio, {
+    this._dio,
+    this._prefs, {
     this.baseUrl,
   }) {
     baseUrl ??= 'https://api.themoviedb.org/3';
@@ -18,10 +19,7 @@ class _MovieApiService implements MovieApiService {
 
   final Dio _dio;
 
-  Future<String?> getRegion() async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    return _prefs.getString('country');
-  }
+  final SharedPreferences _prefs;
 
   String? baseUrl;
 
@@ -37,7 +35,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page ?? 1,
       r'language': language,
-      r'region': await getRegion(),
+      r'region': _prefs.getString('country'),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -78,7 +76,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page ?? 1,
       r'language': language,
-      r'region': await getRegion(),
+      r'region': _prefs.getString('country'),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -136,8 +134,9 @@ class _MovieApiService implements MovieApiService {
             ))));
     if ((_result.data!['results']) != null) {
       if ((_result.data!['results'] as Map<String, dynamic>)
-          .containsKey(await getRegion())) {
-        var _countryList = _result.data!['results'][await getRegion()];
+          .containsKey(_prefs.getString('country'))) {
+        var _countryList =
+            _result.data!['results'][_prefs.getString('country')];
         if ((_countryList as Map<String, dynamic>).containsKey('flatrate')) {
           var _provList = _countryList['flatrate'];
           var _value = (_provList as List<dynamic>)
@@ -175,7 +174,7 @@ class _MovieApiService implements MovieApiService {
       r'api_key': apiKey,
       r'page': page,
       r'language': language,
-      r'region': await getRegion(),
+      r'region': _prefs.getString('country'),
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

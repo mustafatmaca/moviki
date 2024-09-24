@@ -9,7 +9,7 @@ part 'movie_api_service.g.dart';
 
 @RestApi(baseUrl: movieAPIBaseURL)
 abstract class MovieApiService {
-  factory MovieApiService(Dio dio) = _MovieApiService;
+  factory MovieApiService(Dio dio, SharedPreferences prefs) = _MovieApiService;
 
   @GET('/movie/popular')
   Future<HttpResponse<List<MovieModel>>> getPopularMovies({
