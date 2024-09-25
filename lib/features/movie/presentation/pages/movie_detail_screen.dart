@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_event.dart';
@@ -25,7 +27,6 @@ class MovieDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -37,7 +38,7 @@ class MovieDetailScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.black,
+                            color: AppColor.background,
                             image: DecorationImage(
                                 image: CachedNetworkImageProvider(
                                     "https://image.tmdb.org/t/p/w500/${movie.posterPath}"))),
@@ -46,12 +47,14 @@ class MovieDetailScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.26,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Colors.black,
+                          color: AppColor.background,
                         ),
                         child: const Center(
                           child: Text(
                             "NO IMAGE",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: AppColor.labelOne,
+                            ),
                           ),
                         ),
                       ),
@@ -61,7 +64,7 @@ class MovieDetailScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
-                        backgroundColor: Colors.black,
+                        backgroundColor: AppColor.background,
                         child: BlocBuilder<IsFavoriteBloc, IsFavoriteState>(
                           builder: (context, state) {
                             if (state is IsFavoriteInitial) {
@@ -71,7 +74,6 @@ class MovieDetailScreen extends StatelessWidget {
                               return Container();
                             } else if (state is IsFavoriteLoaded) {
                               return IconButton(
-                                  color: Colors.black,
                                   onPressed: () {
                                     context
                                         .read<FavoriteMovieBloc>()
@@ -82,11 +84,9 @@ class MovieDetailScreen extends StatelessWidget {
                                   },
                                   icon: const Icon(
                                     Icons.favorite,
-                                    color: Color(0xFFFF5046),
                                   ));
                             } else if (state is IsFavoriteError) {
                               return IconButton(
-                                  color: Colors.black,
                                   onPressed: () {
                                     context
                                         .read<FavoriteMovieBloc>()
@@ -97,7 +97,6 @@ class MovieDetailScreen extends StatelessWidget {
                                   },
                                   icon: const Icon(
                                     Icons.favorite_border,
-                                    color: Color(0xFFFF5046),
                                   ));
                             } else {
                               return Container();
@@ -117,58 +116,50 @@ class MovieDetailScreen extends StatelessWidget {
                       Flexible(
                         child: Text(
                           movie.title!,
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style:
+                              AppTheme.theme.textTheme.headlineMedium!.copyWith(
+                            color: AppColor.labelOne,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(
                         width: 16,
                       ),
-                      Text(
-                        movie.releaseDate!.substring(0, 4),
-                        style: const TextStyle(
-                            fontSize: 16,
+                      Text(movie.releaseDate!.substring(0, 4),
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelFour,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white38),
-                      )
+                          ))
                     ],
                   ),
                   Row(
                     children: [
-                      Text(
-                        movie.voteAverage.toString().substring(0, 3),
-                        style: const TextStyle(
-                            fontSize: 16,
+                      Text(movie.voteAverage.toString().substring(0, 3),
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelOne,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      const Text(
-                        "/10",
-                        style: TextStyle(
-                            fontSize: 16,
+                          )),
+                      Text("/10",
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelFour,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white38),
-                      ),
+                          )),
                       const SizedBox(
                         width: 4,
                       ),
                       const Icon(
                         Icons.star,
-                        color: Color(0xFFFF5046),
                         size: 18,
                       ),
                       const SizedBox(
                         width: 6,
                       ),
-                      const Text(
-                        "|",
-                        style: TextStyle(
-                            fontSize: 16,
+                      Text("|",
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelOne,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
+                          )),
                       const SizedBox(
                         width: 6,
                       ),
@@ -181,20 +172,19 @@ class MovieDetailScreen extends StatelessWidget {
                             return Container();
                           } else if (state is MovieRuntimeLoaded) {
                             return Text(
-                              "${(state.runtime! / 60).floor()} h ${(state.runtime! % 60)} min",
-                              style: const TextStyle(
-                                  fontSize: 16,
+                                "${(state.runtime! / 60).floor()} h ${(state.runtime! % 60)} min",
+                                style: AppTheme.theme.textTheme.titleMedium!
+                                    .copyWith(
+                                  color: AppColor.labelFour,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white38),
-                            );
+                                ));
                           } else {
-                            return const Text(
-                              "* h * min",
-                              style: TextStyle(
-                                  fontSize: 16,
+                            return Text("* h * min",
+                                style: AppTheme.theme.textTheme.titleMedium!
+                                    .copyWith(
+                                  color: AppColor.labelFour,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white38),
-                            );
+                                ));
                           }
                         },
                       )
@@ -203,15 +193,13 @@ class MovieDetailScreen extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  Text(
-                    "${movie.overview}",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 8,
-                    style: const TextStyle(
-                        color: Colors.white38,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  Text("${movie.overview}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 8,
+                      style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                        color: AppColor.labelFour,
+                        fontWeight: FontWeight.bold,
+                      )),
                   const SizedBox(
                     height: 12,
                   ),
@@ -219,12 +207,12 @@ class MovieDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "Platform",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelOne,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.left,
                         ),
                         BlocBuilder<MovieProvidersBloc, MovieProvidersState>(
@@ -237,18 +225,16 @@ class MovieDetailScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                               );
                             } else if (state is MovieProvidersLoading) {
                               return Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                                 child: const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Color(0xFFFF5046),
-                                  ),
+                                  child: CircularProgressIndicator(),
                                 ),
                               );
                             } else if (state is MovieProvidersLoaded) {
@@ -272,7 +258,7 @@ class MovieDetailScreen extends StatelessWidget {
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
-                                                color: Colors.transparent,
+                                                color: AppColor.transparent,
                                                 image: DecorationImage(
                                                     image: CachedNetworkImageProvider(
                                                         "https://image.tmdb.org/t/p/original/${e.logoPath}"))),
@@ -286,20 +272,23 @@ class MovieDetailScreen extends StatelessWidget {
                               return Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                                 child: Center(
                                     child: Text(
                                   state.error!.message!,
-                                  style: TextStyle(color: Colors.white),
+                                  style: AppTheme.theme.textTheme.titleLarge,
                                 )),
                               );
                             } else {
                               return Container(
                                 height: MediaQuery.of(context).size.height,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
-                                child: const Center(
-                                    child: Text("Something went wrong!")),
+                                color: AppColor.transparent,
+                                child: Center(
+                                    child: Text(
+                                  "Something went wrong!",
+                                  style: AppTheme.theme.textTheme.titleLarge,
+                                )),
                               );
                             }
                           },
@@ -314,12 +303,12 @@ class MovieDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "More Like This",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: AppTheme.theme.textTheme.titleMedium!.copyWith(
+                            color: AppColor.labelOne,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         BlocBuilder<SimilarMoviesBloc, SimilarMoviesState>(
                           builder: (context, state) {
@@ -331,18 +320,16 @@ class MovieDetailScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                               );
                             } else if (state is SimilarMoviesLoading) {
                               return Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                                 child: const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Color(0xFFFF5046),
-                                  ),
+                                  child: CircularProgressIndicator(),
                                 ),
                               );
                             } else if (state is SimilarMoviesLoaded) {
@@ -396,8 +383,8 @@ class MovieDetailScreen extends StatelessWidget {
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(8),
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: AppColor
+                                                            .transparent,
                                                         image: DecorationImage(
                                                             image: CachedNetworkImageProvider(
                                                                 "https://image.tmdb.org/t/p/w200/${e.posterPath}"))),
@@ -412,14 +399,15 @@ class MovieDetailScreen extends StatelessWidget {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               12),
-                                                      color: Colors.black,
+                                                      color:
+                                                          AppColor.transparent,
                                                     ),
                                                     child: const Center(
                                                       child: Text(
                                                         "NO IMAGE",
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                            color: AppColor
+                                                                .labelOne),
                                                       ),
                                                     ),
                                                   ),
@@ -433,20 +421,23 @@ class MovieDetailScreen extends StatelessWidget {
                               return Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
-                                color: Colors.transparent,
+                                color: AppColor.transparent,
                                 child: Center(
                                     child: Text(
                                   state.error!.message!,
-                                  style: TextStyle(color: Colors.white),
+                                  style: AppTheme.theme.textTheme.titleLarge,
                                 )),
                               );
                             } else {
                               return Container(
                                 height: MediaQuery.of(context).size.height,
                                 width: MediaQuery.of(context).size.width,
-                                color: Colors.transparent,
-                                child: const Center(
-                                    child: Text("Something went wrong!")),
+                                color: AppColor.transparent,
+                                child: Center(
+                                    child: Text(
+                                  "Something went wrong!",
+                                  style: AppTheme.theme.textTheme.titleLarge,
+                                )),
                               );
                             }
                           },

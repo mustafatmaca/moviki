@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/favorite_movie/favorite_movie_bloc.dart';
@@ -48,6 +49,7 @@ Future<void> main() async {
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Moviki',
+      theme: AppTheme.theme,
       home: await getIt<GetIsOpenUseCase>().call() == null ||
               await getIt<GetIsOpenUseCase>().call() == false
           ? const SplashScreen()

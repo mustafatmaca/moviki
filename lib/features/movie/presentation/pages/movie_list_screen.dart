@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_state.dart';
@@ -58,12 +60,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
         });
       },
       child: Scaffold(
-          backgroundColor: Colors.black,
           appBar: AppBar(
             title: Text(widget.title),
-            centerTitle: false,
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
             automaticallyImplyLeading: false,
           ),
           body: buildList(widget.title, page)),
@@ -79,24 +77,22 @@ class _MovieListScreenState extends State<MovieListScreen> {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
+              color: AppColor.transparent,
             );
           } else if (state is AllPopularLoading) {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
+              color: AppColor.transparent,
               child: const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFFFF5046),
-                ),
+                child: CircularProgressIndicator(),
               ),
             );
           } else if (state is AllPopularLoaded) {
             return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
+                color: AppColor.transparent,
                 child: ListView.builder(
                   controller: scrollController,
                   itemCount: state.movies!.length + (isLoading ? 1 : 0),
@@ -105,9 +101,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       return const Padding(
                         padding: EdgeInsets.only(top: 10.0, bottom: 14.0),
                         child: Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFFF5046),
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     } else {
@@ -119,8 +113,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-              child: const Center(child: Text("Something went wrong!")),
+              color: AppColor.transparent,
+              child: Center(
+                  child: Text(
+                "Something went wrong!",
+                style: AppTheme.theme.textTheme.titleLarge,
+              )),
             );
           }
         },
@@ -133,24 +131,22 @@ class _MovieListScreenState extends State<MovieListScreen> {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
+              color: AppColor.transparent,
             );
           } else if (state is AllTopLoading) {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
+              color: AppColor.transparent,
               child: const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFFFF5046),
-                ),
+                child: CircularProgressIndicator(),
               ),
             );
           } else if (state is AllTopLoaded) {
             return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
+                color: AppColor.transparent,
                 child: ListView.builder(
                   controller: scrollController,
                   itemCount: state.movies!.length + (isLoading ? 1 : 0),
@@ -159,9 +155,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       return const Padding(
                         padding: EdgeInsets.only(top: 10.0, bottom: 14.0),
                         child: Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFFF5046),
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     } else {
@@ -173,8 +167,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-              child: const Center(child: Text("Something went wrong!")),
+              color: AppColor.transparent,
+              child: Center(
+                  child: Text(
+                "Something went wrong!",
+                style: AppTheme.theme.textTheme.titleLarge,
+              )),
             );
           }
         },

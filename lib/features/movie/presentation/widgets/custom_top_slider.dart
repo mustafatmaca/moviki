@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
@@ -46,7 +47,7 @@ buildFilmCard(MovieEntity movie, BuildContext context) {
     child: movie.posterPath != null
         ? Container(
             decoration: BoxDecoration(
-                color: Colors.black,
+                color: AppColor.background,
                 image: DecorationImage(
                     fit: BoxFit.contain,
                     image: CachedNetworkImageProvider(
@@ -56,12 +57,12 @@ buildFilmCard(MovieEntity movie, BuildContext context) {
             width: MediaQuery.of(context).size.width * 0.26,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Colors.black,
+              color: AppColor.background,
             ),
             child: const Center(
               child: Text(
                 "NO IMAGE",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColor.labelOne),
               ),
             ),
           ),

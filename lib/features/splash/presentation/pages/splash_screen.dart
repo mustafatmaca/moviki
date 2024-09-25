@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/presentation/pages/home_screen.dart';
 import 'package:moviki/features/splash/domain/usecases/set_country.dart';
 import 'package:moviki/features/splash/domain/usecases/set_is_open.dart';
@@ -31,7 +33,7 @@ class SplashScreen extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Colors.black,
+            color: AppColor.background,
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.7,
@@ -48,7 +50,7 @@ class SplashScreen extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                 child: Container(
-                  color: Colors.black54,
+                  color: AppColor.blur,
                 ),
               ),
             ),
@@ -65,18 +67,15 @@ class SplashScreen extends StatelessWidget {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          "Moviki",
-                          style: TextStyle(color: Colors.white, fontSize: 36),
-                        ),
-                        const Text(
-                          "Get knowledge about films and series!",
-                          style: TextStyle(color: Colors.white, fontSize: 22),
-                        ),
+                        Text("Moviki",
+                            style: AppTheme.theme.textTheme.displayLarge),
+                        Text("Get knowledge about films and series!",
+                            style: AppTheme.theme.textTheme.headlineSmall!
+                                .copyWith(color: AppColor.labelOne)),
                         OutlinedButton(
                             onPressed: () {
                               showModalBottomSheet(
-                                backgroundColor: Colors.black,
+                                backgroundColor: AppColor.background,
                                 showDragHandle: true,
                                 context: context,
                                 builder: (context) {
@@ -97,21 +96,31 @@ class SplashScreen extends StatelessWidget {
                                               leading: Text(
                                                 state.countries![index]
                                                     .iso31661!,
-                                                style: const TextStyle(
-                                                    color: Colors.white60),
+                                                style: AppTheme
+                                                    .theme.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                        color:
+                                                            AppColor.labelTwo),
                                               ),
                                               title: Text(
                                                 state.countries![index]
                                                     .englishName!,
-                                                style: const TextStyle(
-                                                    color: Colors.white60),
+                                                style: AppTheme
+                                                    .theme.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                        color:
+                                                            AppColor.labelTwo),
                                               ),
                                             );
                                           },
                                         );
                                       } else {
-                                        return const Center(
-                                          child: Text("Something went wrong!"),
+                                        return Center(
+                                          child: Text(
+                                            "Something went wrong!",
+                                            style: AppTheme
+                                                .theme.textTheme.titleLarge,
+                                          ),
                                         );
                                       }
                                     },
@@ -119,32 +128,40 @@ class SplashScreen extends StatelessWidget {
                                 },
                               );
                             },
-                            style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white60,
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width,
-                                    MediaQuery.of(context).size.height * 0.07)),
+                            style: AppTheme.theme.outlinedButtonTheme.style!
+                                .copyWith(
+                              minimumSize: WidgetStatePropertyAll(
+                                Size(MediaQuery.of(context).size.width,
+                                    MediaQuery.of(context).size.height * 0.07),
+                              ),
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 state is SelectCountryLoaded
                                     ? Text(
                                         "${state.selectedCountry!.iso31661} - ${state.selectedCountry!.englishName}",
-                                        style: const TextStyle(
-                                            color: Colors.white60),
-                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTheme
+                                            .theme.textTheme.bodyLarge!
+                                            .copyWith(
+                                          color: AppColor.labelTwo,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       )
-                                    : const Text(
+                                    : Text(
                                         "Select Country",
-                                        style: TextStyle(color: Colors.white60),
-                                        overflow: TextOverflow.ellipsis,
+                                        style: AppTheme
+                                            .theme.textTheme.bodyLarge!
+                                            .copyWith(
+                                          color: AppColor.labelTwo,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size:
                                       MediaQuery.of(context).size.width * 0.04,
-                                  color: Colors.white60,
+                                  color: AppColor.labelTwo,
                                 )
                               ],
                             )),
@@ -159,15 +176,17 @@ class SplashScreen extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => const HomeScreen()));
                           },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 12,
-                              backgroundColor: const Color(0xFFFF5046),
-                              foregroundColor: Colors.white,
-                              shadowColor: const Color(0xFFFF5046),
-                              minimumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  MediaQuery.of(context).size.height * 0.07)),
-                          child: const Text("Get Started"),
+                          style: AppTheme.theme.elevatedButtonTheme.style!
+                              .copyWith(
+                                  minimumSize: WidgetStateProperty.all(Size(
+                                      MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height *
+                                          0.07))),
+                          child: Text(
+                            "Get Started",
+                            style: AppTheme.theme.textTheme.titleMedium!
+                                .copyWith(color: AppColor.labelOne),
+                          ),
                         ),
                       ],
                     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
@@ -35,11 +37,6 @@ class HomeScreen extends StatelessWidget {
           onTap: (value) {
             context.read<BottomNavigationBloc>().add(ChangePage(value));
           },
-          backgroundColor: Colors.black,
-          unselectedItemColor: Colors.white54,
-          selectedItemColor: const Color(0xFFFF5046),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(
@@ -54,7 +51,6 @@ class HomeScreen extends StatelessWidget {
                 icon: Icon(Icons.search_outlined), label: "Search"),
           ],
         ),
-        backgroundColor: Colors.black,
         body: state.currentIndex == 0
             ? SingleChildScrollView(
                 child: Column(
@@ -69,24 +65,22 @@ class HomeScreen extends StatelessWidget {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.65,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                           );
                         } else if (state is RemotePopularMovieLoading) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.65,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFFFF5046),
-                              ),
+                              child: CircularProgressIndicator(),
                             ),
                           );
                         } else if (state is RemotePopularMovieLoaded) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.60,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: CustomTopSlider(
                               movieList: state.movies!.sublist(0, 3),
                             ),
@@ -95,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.65,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: const Center(
                                 child: Text("Something went wrong!")),
                           );
@@ -105,9 +99,10 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           "Top Movies",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: AppTheme.theme.textTheme.titleMedium!
+                              .copyWith(color: AppColor.labelOne),
                         ),
                         TextButton(
                           onPressed: () {
@@ -121,16 +116,16 @@ class HomeScreen extends StatelessWidget {
                                               title: "Top Movies"),
                                         )));
                           },
-                          child: const Row(
+                          child: Row(
                             children: [
                               Text(
                                 "See All",
-                                style: TextStyle(
-                                    color: Color(0xFFFF5046), fontSize: 16),
+                                style: AppTheme.theme.textTheme.titleMedium!
+                                    .copyWith(color: AppColor.primary),
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.arrow_forward_ios,
-                                color: Color(0xFFFF5046),
+                                color: AppColor.primary,
                                 size: 16,
                               ),
                             ],
@@ -146,26 +141,23 @@ class HomeScreen extends StatelessWidget {
                               .read<RemotePopularMovieBloc>()
                               .add(GetPopularMovies());
                           return Container(
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
-                          );
+                              height: MediaQuery.of(context).size.height * 0.22,
+                              width: MediaQuery.of(context).size.width,
+                              color: AppColor.transparent);
                         } else if (state is RemotePopularMovieLoading) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFFFF5046),
-                              ),
+                              child: CircularProgressIndicator(),
                             ),
                           );
                         } else if (state is RemotePopularMovieLoaded) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: CustomSlider(
                               movieList: state.movies!.sublist(3),
                             ),
@@ -174,9 +166,12 @@ class HomeScreen extends StatelessWidget {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
-                            child: const Center(
-                                child: Text("Something went wrong!")),
+                            color: AppColor.transparent,
+                            child: Center(
+                                child: Text(
+                              "Something went wrong!",
+                              style: AppTheme.theme.textTheme.titleLarge,
+                            )),
                           );
                         }
                       },
@@ -184,9 +179,10 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           "Top Rated",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: AppTheme.theme.textTheme.titleMedium!
+                              .copyWith(color: AppColor.labelOne),
                         ),
                         TextButton(
                           onPressed: () {
@@ -200,16 +196,16 @@ class HomeScreen extends StatelessWidget {
                                               title: "Top Rated"),
                                         )));
                           },
-                          child: const Row(
+                          child: Row(
                             children: [
                               Text(
                                 "See All",
-                                style: TextStyle(
-                                    color: Color(0xFFFF5046), fontSize: 16),
+                                style: AppTheme.theme.textTheme.titleMedium!
+                                    .copyWith(color: AppColor.primary),
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.arrow_forward_ios,
-                                color: Color(0xFFFF5046),
+                                color: AppColor.primary,
                                 size: 16,
                               ),
                             ],
@@ -226,24 +222,22 @@ class HomeScreen extends StatelessWidget {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                           );
                         } else if (state is RemoteTopMovieLoading) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFFFF5046),
-                              ),
+                              child: CircularProgressIndicator(),
                             ),
                           );
                         } else if (state is RemoteTopMovieLoaded) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
+                            color: AppColor.transparent,
                             child: CustomSlider(
                               movieList: state.movies!,
                             ),
@@ -252,9 +246,12 @@ class HomeScreen extends StatelessWidget {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.22,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
-                            child: const Center(
-                                child: Text("Something went wrong!")),
+                            color: AppColor.transparent,
+                            child: Center(
+                                child: Text(
+                              "Something went wrong!",
+                              style: AppTheme.theme.textTheme.titleLarge,
+                            )),
                           );
                         }
                       },
@@ -267,23 +264,21 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is FavoriteMovieLoading) {
                         return const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFFF5046),
-                          ),
+                          child: CircularProgressIndicator(),
                         );
                       } else if (state is FavoriteMovieLoaded) {
                         if (state.movies != null) {
                           return state.movies!.isEmpty
-                              ? const Center(
+                              ? Center(
                                   child: Text(
                                     "There is no fav movie!",
-                                    style: TextStyle(color: Colors.white),
+                                    style: AppTheme.theme.textTheme.titleLarge,
                                   ),
                                 )
                               : Container(
                                   height: MediaQuery.of(context).size.height,
                                   width: MediaQuery.of(context).size.width,
-                                  color: Colors.transparent,
+                                  color: AppColor.transparent,
                                   child: ListView.builder(
                                     itemCount: state.movies!.length,
                                     itemBuilder: (context, index) {
@@ -292,16 +287,19 @@ class HomeScreen extends StatelessWidget {
                                     },
                                   ));
                         } else {
-                          return const Center(
+                          return Center(
                             child: Text(
                               "There is no fav movie!",
-                              style: TextStyle(color: Colors.white38),
+                              style: AppTheme.theme.textTheme.titleLarge,
                             ),
                           );
                         }
                       } else {
-                        return const Center(
-                          child: Text("Something went wrong!"),
+                        return Center(
+                          child: Text(
+                            "Something went wrong!",
+                            style: AppTheme.theme.textTheme.titleLarge,
+                          ),
                         );
                       }
                     },
@@ -315,38 +313,16 @@ class HomeScreen extends StatelessWidget {
                           right: 8,
                         ),
                         child: TextFormField(
-                          style: const TextStyle(color: Colors.white),
+                          style: AppTheme.theme.textTheme.titleLarge,
                           onChanged: (value) {
                             context
                                 .read<SearchMovieBloc>()
                                 .add(SearchMovies(query: value));
                           },
                           decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white12,
-                              hintText: 'Search Movie...',
-                              hintStyle: TextStyle(color: Colors.white38),
-                              suffixIcon: Icon(Icons.search),
-                              suffixIconColor: Color(0xFFFF5046),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(24)),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(24)),
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 2.0,
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(24)))),
+                            hintText: 'Search Movie...',
+                            suffixIcon: Icon(Icons.search),
+                          ).applyDefaults(AppTheme.theme.inputDecorationTheme),
                         ),
                       ),
                       BlocBuilder<SearchMovieBloc, SearchMovieState>(

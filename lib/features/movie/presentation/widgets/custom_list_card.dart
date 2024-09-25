@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviki/config/theme/app_color.dart';
+import 'package:moviki/config/theme/app_theme.dart';
 import 'package:moviki/features/movie/domain/entities/movie.dart';
 import 'package:moviki/features/movie/presentation/bloc/is_favorite/is_favorite_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/movie_providers/movie_providers_bloc.dart';
@@ -42,7 +44,7 @@ class CustomListCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.26,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.black,
+                        color: AppColor.background,
                         image: DecorationImage(
                             image: CachedNetworkImageProvider(
                                 "https://image.tmdb.org/t/p/w200/${movie.posterPath}"))),
@@ -51,12 +53,12 @@ class CustomListCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.26,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.black,
+                      color: AppColor.background,
                     ),
                     child: const Center(
                       child: Text(
                         "NO IMAGE",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: AppColor.labelOne),
                       ),
                     ),
                   ),
@@ -71,31 +73,27 @@ class CustomListCard extends StatelessWidget {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
-                        child: Text(
-                          movie.title!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
+                        child: Text(movie.title!,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.theme.textTheme.titleMedium!
+                                .copyWith(color: AppColor.labelOne)),
                       ),
                       movie.releaseDate != null &&
                               movie.releaseDate!.length >= 5
-                          ? Text(
-                              movie.releaseDate!.substring(0, 4),
-                              style: const TextStyle(
-                                  color: Colors.white54, fontSize: 14),
-                            )
+                          ? Text(movie.releaseDate!.substring(0, 4),
+                              style: AppTheme.theme.textTheme.titleSmall!
+                                  .copyWith(color: AppColor.labelThree))
                           : Container(),
                     ],
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  Text(
-                    "${movie.overview}",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
-                    style: TextStyle(color: Colors.white38, fontSize: 12),
-                  )
+                  Text("${movie.overview}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 4,
+                      style: AppTheme.theme.textTheme.bodyLarge!
+                          .copyWith(color: AppColor.labelFour))
                 ],
               ),
             )
