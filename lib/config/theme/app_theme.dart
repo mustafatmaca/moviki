@@ -15,11 +15,18 @@ class AppTheme {
         centerTitle: false,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: AppColor.background,
         unselectedItemColor: AppColor.labelThree,
         selectedItemColor: AppColor.primary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: AppColor.labelFour,
+        thickness: 0.6,
+        indent: 12,
+        endIndent: 12,
       ),
       iconTheme: const IconThemeData(
         color: AppColor.primary,
