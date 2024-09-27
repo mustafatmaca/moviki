@@ -18,6 +18,7 @@ import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movi
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_event.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_state.dart';
+import 'package:moviki/features/movie/presentation/pages/about_screen.dart';
 import 'package:moviki/features/movie/presentation/pages/movie_list_screen.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_list_card.dart';
 import 'package:moviki/features/movie/presentation/widgets/custom_slider.dart';
@@ -372,6 +373,13 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const Divider(),
                             ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AboutScreen(),
+                                    ));
+                              },
                               leading: const Icon(
                                 Icons.info,
                                 color: AppColor.primary,
