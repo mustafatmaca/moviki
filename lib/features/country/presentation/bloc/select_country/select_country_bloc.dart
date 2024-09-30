@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_event.dart';
-import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_state.dart';
+import 'package:moviki/features/country/presentation/bloc/select_country/select_country_event.dart';
+import 'package:moviki/features/country/presentation/bloc/select_country/select_country_state.dart';
 
 class SelectCountryBloc extends Bloc<SelectCountryEvent, SelectCountryState> {
   SelectCountryBloc() : super(SelectCountryInitial()) {

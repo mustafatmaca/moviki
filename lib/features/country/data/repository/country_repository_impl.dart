@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:moviki/core/constants/constants.dart';
 import 'package:moviki/core/resources/data_state.dart';
-import 'package:moviki/features/splash/data/data_sources/remote/country_api_service.dart';
-import 'package:moviki/features/splash/data/models/country_model.dart';
-import 'package:moviki/features/splash/domain/repository/country_repository.dart';
+import 'package:moviki/features/country/data/data_sources/remote/country_api_service.dart';
+import 'package:moviki/features/country/data/models/country_model.dart';
+import 'package:moviki/features/country/domain/repository/country_repository.dart';
 
 class CountryRepositoryImpl implements CountryRepository {
   final CountryApiService _countryApiService;

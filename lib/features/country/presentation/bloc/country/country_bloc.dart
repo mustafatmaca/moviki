@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:moviki/core/resources/data_state.dart';
-import 'package:moviki/features/splash/domain/usecases/get_countries.dart';
-import 'package:moviki/features/splash/presentation/bloc/country/country_event.dart';
-import 'package:moviki/features/splash/presentation/bloc/country/country_state.dart';
+import 'package:moviki/features/country/domain/usecases/get_countries.dart';
+import 'package:moviki/features/country/presentation/bloc/country/country_event.dart';
+import 'package:moviki/features/country/presentation/bloc/country/country_state.dart';
 
 class CountryBloc extends Bloc<CountryEvent, CountryState> {
   final GetCountriesUseCase _getCountriesUseCase;

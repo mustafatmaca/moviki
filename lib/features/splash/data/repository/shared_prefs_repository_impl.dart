@@ -7,18 +7,8 @@ class SharedPrefsRepositoryImpl implements SharedPrefsRepository {
   SharedPrefsRepositoryImpl(this._prefs);
 
   @override
-  String? getCountry() {
-    return _prefs.getString('country');
-  }
-
-  @override
   bool? getIsOpen() {
     return _prefs.getBool('isOpen');
-  }
-
-  @override
-  void setCountry(String country) {
-    _prefs.setString('country', country);
   }
 
   @override

@@ -22,6 +22,11 @@ class AppTheme {
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
+      dialogTheme: const DialogTheme(
+        backgroundColor: AppColor.dialogBg,
+        titleTextStyle: TextStyle(color: AppColor.labelOne),
+        contentTextStyle: TextStyle(color: AppColor.labelTwo),
+      ),
       dividerTheme: const DividerThemeData(
         color: AppColor.labelFour,
         thickness: 0.6,

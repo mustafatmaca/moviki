@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviki/config/theme/app_color.dart';
 import 'package:moviki/config/theme/app_theme.dart';
+import 'package:moviki/features/country/presentation/pages/country_screen.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_popular/all_popular_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/all_top/all_top_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/bottom_navigation/bottom_navigation_bloc.dart';
@@ -362,6 +363,14 @@ class HomeScreen extends StatelessWidget {
                       : ListView(
                           children: [
                             ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CountryScreen(),
+                                    ));
+                              },
                               leading: const Icon(
                                 Icons.language,
                                 color: AppColor.primary,

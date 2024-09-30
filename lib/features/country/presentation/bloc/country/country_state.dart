@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:moviki/features/splash/domain/entities/country.dart';
+import 'package:moviki/features/country/domain/entities/country.dart';
 
 abstract class CountryState extends Equatable {
   final List<CountryEntity>? countries;

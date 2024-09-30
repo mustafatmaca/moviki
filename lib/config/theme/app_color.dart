@@ -17,4 +17,5 @@ class AppColor {
   static const Color labelThree = Colors.white54;
   static const Color labelFour = Colors.white38;
   static const Color searchBar = Colors.white12;
+  static const Color dialogBg = Color(0xFF222222);
 }

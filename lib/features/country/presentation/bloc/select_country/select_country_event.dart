@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:moviki/features/splash/domain/entities/country.dart';
+import 'package:moviki/features/country/domain/entities/country.dart';
 
 abstract class SelectCountryEvent extends Equatable {
   final CountryEntity? selectedCountry;

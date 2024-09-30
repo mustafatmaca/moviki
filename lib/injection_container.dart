@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:moviki/features/country/data/repository/country_shared_repository_impl.dart';
+import 'package:moviki/features/country/domain/repository/country_shared_repository.dart';
 import 'package:moviki/features/movie/data/data_sources/local/app_database.dart';
 import 'package:moviki/features/movie/data/data_sources/remote/movie_api_service.dart';
 import 'package:moviki/features/movie/data/repository/movie_provider_repository_impl.dart';
@@ -27,18 +29,18 @@ import 'package:moviki/features/movie/presentation/bloc/popular_movie/remote/rem
 import 'package:moviki/features/movie/presentation/bloc/search_movie/search_movie_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/similar_movies/similar_movies_bloc.dart';
 import 'package:moviki/features/movie/presentation/bloc/top_movie/remote/remote_top_movie_bloc.dart';
-import 'package:moviki/features/splash/data/data_sources/remote/country_api_service.dart';
-import 'package:moviki/features/splash/data/repository/country_repository_impl.dart';
+import 'package:moviki/features/country/data/data_sources/remote/country_api_service.dart';
+import 'package:moviki/features/country/data/repository/country_repository_impl.dart';
 import 'package:moviki/features/splash/data/repository/shared_prefs_repository_impl.dart';
-import 'package:moviki/features/splash/domain/repository/country_repository.dart';
+import 'package:moviki/features/country/domain/repository/country_repository.dart';
 import 'package:moviki/features/splash/domain/repository/shared_prefs_repository.dart';
-import 'package:moviki/features/splash/domain/usecases/get_countries.dart';
-import 'package:moviki/features/splash/domain/usecases/get_country.dart';
+import 'package:moviki/features/country/domain/usecases/get_countries.dart';
+import 'package:moviki/features/country/domain/usecases/get_country.dart';
 import 'package:moviki/features/splash/domain/usecases/get_is_open.dart';
-import 'package:moviki/features/splash/domain/usecases/set_country.dart';
+import 'package:moviki/features/country/domain/usecases/set_country.dart';
 import 'package:moviki/features/splash/domain/usecases/set_is_open.dart';
-import 'package:moviki/features/splash/presentation/bloc/country/country_bloc.dart';
-import 'package:moviki/features/splash/presentation/bloc/select_country/select_country_bloc.dart';
+import 'package:moviki/features/country/presentation/bloc/country/country_bloc.dart';
+import 'package:moviki/features/country/presentation/bloc/select_country/select_country_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -67,6 +69,9 @@ Future<void> initializeDependencies() async {
       MovieProviderRepositoryImpl(getIt()));
 
   getIt.registerSingleton<CountryRepository>(CountryRepositoryImpl(getIt()));
+
+  getIt.registerSingleton<CountrySharedRepository>(
+      CountrySharedRepositoryImpl(getIt()));
 
   getIt.registerSingleton<SharedPrefsRepository>(
       SharedPrefsRepositoryImpl(getIt()));
